@@ -1,57 +1,54 @@
 package dto;
 
 public class Dealer {
-	private String name;
-	private String address;
-	private String id;
-	private int zipCode;
-	private int phoneNumber;
 	
-	public Dealer(String name, String address, String id, int zipCode, int phoneNumber) {
-        this.setName(name);
-        this.setAddress(address);
-        this.setId(id);
-        this.setZipCode(zipCode);
-        this.setPhoneNumber(phoneNumber);
+	private String dealerId;
+	
+	private String dealerName;
+	
+	private String dealerAddress;
+	
+	private String zipCode;
+	
+	private String phoneNumber;
+	
+	public String getdealerId() {
+        return dealerId;
     }
 
-	public String getName() {
-		return name;
-	}
+    public void setdealerId(String id) {
+        this.dealerId = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getdealerName() {
+        return dealerName;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public void setdealerName(String name) {
+        this.dealerName = name;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getdealerAddress() {
+        return dealerAddress;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setdealerAddress(String address) {
+        this.dealerAddress = address;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getzipCode() {
+        return zipCode;
+    }
 
-	public int getZipCode() {
-		return zipCode;
-	}
+    public void setzipCode(String zipcode) {
+        this.zipCode = zipcode;
+    }
 
-	public void setZipCode(int zipCode) {
-		this.zipCode = zipCode;
-	}
+    public String getPhoneNo() {
+        return phoneNumber;
+    }
 
-	public int getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(int phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNumber = phoneNo;
+    }
 }
