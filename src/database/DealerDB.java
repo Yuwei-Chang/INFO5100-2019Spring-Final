@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 
 public class DealerDB extends Dealer{
 	String URL = "jdbc:sqlserver://is-swang01.ischool.uw.edu;"
-			+ "databaseName=Car_Dealer";
+			+ "databaseName=Dealer";
 	String USER = "INFO6210";
 	String PASS = "NEUHusky!";
 
