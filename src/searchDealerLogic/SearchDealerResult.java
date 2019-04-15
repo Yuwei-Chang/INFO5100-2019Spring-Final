@@ -15,6 +15,8 @@ public class SearchDealerResult {
 
     public ArrayList<Dealer> getDealerObjListByDistance(int zipcode) throws IOException {
 
+        DealerDistanceList.clear();
+
         // Logic code to retrieve all the distance based on zipcode
         String originZipCode = Integer.toString(zipcode); //Convert zipcode to string, used this as origin "addr"
         ArrayList<Double> distanceList = new ArrayList<>();  // Distancelist used to store call the calculated distance for each dealer
@@ -52,6 +54,23 @@ public class SearchDealerResult {
             DealerDistanceList.add(sdl+" Miles");
         }
         return searchResult;
+
+    }
+
+    public ArrayList<Dealer> getDealerObjListByName(String dealerName){
+
+        ArrayList<Dealer> dealerList = DealerList.getDealerList();
+        ArrayList<Dealer> dealerObjList = new ArrayList<>();
+        String searchCriteria = dealerName.toLowerCase();
+        for (Dealer dl : dealerList){
+            String dealerLowerCaseName = dl.getName().toLowerCase();
+            if (dealerLowerCaseName.contains(searchCriteria)){
+                dealerObjList.add(dl);
+            }
+        }
+
+        return dealerObjList;
+
 
     }
 
