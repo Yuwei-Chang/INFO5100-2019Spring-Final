@@ -14,6 +14,8 @@ Call "newSearchDealerResultInstance.getDealerObjListByDistance(integer zipcode)"
 
 {NearestDealerObj1,SecondNearestDealerObj2,........}
 
+Call "newSearchDealerResultInstance.getDistanceList()" to get the corresponding distance list of above dealers, the index will be matching the dealerObject Arraylist.
+
 Be aware, the input parameter zipcode must be a VALID 5 digits US zipcode, random digits like 12345 will throw exception and incorrect distance data.
 
 If there is an exception, use the method "DealerDistance.getDistance("userZipcode","dealerZipcode")" to check if both zipcode are valid. This method will return the distances in Miles by calculate two zipcodes.
@@ -31,7 +33,7 @@ public class SDL_Test {
         DealerDistance.getDistance("97133","97109"); //Test if the Calculation Web service working. It should print our a distance
         SearchDealerResult newResult = new SearchDealerResult();
         System.out.println(newResult.getDealerObjListByDistance(98133)); // Test if the searchDealer method working. It should return an Arraylist
-        System.out.println(newResult.getDistanceList().get(0));
+        System.out.println(newResult.getDistanceList());
         System.out.println(newResult.getDealerObjListByName("Honda"));
 
 
