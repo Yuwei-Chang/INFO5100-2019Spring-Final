@@ -110,8 +110,28 @@ class SearchFrame extends JFrame {
 		setTitle("Main Frame");
 		setVisible(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
+		
+		//Jump to Add Page
+		AddButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AddCarUI();
+				setVisible(false);
+			}
+		});
+		
+		//Jump to Modify Page
+		ModifyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ModifyCarUI();
+				setVisible(false);
+			}
+		});
+		
 	}
 }
+
+
 
 
 class InventoryList extends AbstractListModel {

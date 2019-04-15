@@ -1,4 +1,4 @@
-package cn.itcast.accounting.view;
+//package cn.itcast.accounting.view;
 
 import javax.swing.*;
 import java.awt.*;
