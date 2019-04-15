@@ -7,9 +7,7 @@ import java.util.Random;
 
 import static java.lang.Math.abs;
 
-
-public class RetriveDealerInfo {
-
+public class DealerList {
 
     public static ArrayList<Dealer> getDealerList() {
         ArrayList<Dealer> dealerObjList = new ArrayList<>();
@@ -27,4 +25,3 @@ public class RetriveDealerInfo {
 
     }
 }
-

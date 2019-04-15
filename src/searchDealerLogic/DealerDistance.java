@@ -2,17 +2,13 @@ package searchDealerLogic;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Scanner;
 
-
-public class CalculateDistance {
-
-    public static String calculateDistance(String origin, String destination) throws IOException {
+public class DealerDistance {
+    public static String getDistance(String origin, String destination) throws IOException {
         String url = "http://168.61.16.148:8888";
         String charset = "UTF-8";
         String param1 = origin;
@@ -39,5 +35,4 @@ public class CalculateDistance {
 
         return result;
     }
-
 }
