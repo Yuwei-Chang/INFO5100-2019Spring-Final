@@ -14,7 +14,9 @@ Call "newSearchDealerResultInstance.getDealerObjListByDistance(integer zipcode)"
 {NearestDealerObj1,SecondNearestDealerObj2,........}
 
 Be aware, the input parameter zipcode must be a VALID 5 digits US zipcode, random digits like 12345 will throw exception and incorrect distance data.
+Call  "newSearchDealerResultInstance.getDistanceList()" to get the corresponding distance list in below format:
 
+{DistanceOfNearestDealerObj1,DistanceOfNearestDealerObj2,......}
 
 
 If there is an exception, use the method "DealerDistance.getDistance("userZipcode","dealerZipcode")" to check if both zipcode are valid. This method will return the distances in Miles by calculate two zipcodes.
