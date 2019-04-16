@@ -1,13 +1,14 @@
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import javax.swing.*;
-import com.sun.awt.*; 
+import com.sun.awt.*; //If this report error in eclipse, set preference first.
 
 public class SwingTest {
 
 	public static void main(String[] args) {
-		new SearchFrame("Terry");
+		new DealerLogin();
 	}
 
 }
@@ -18,7 +19,9 @@ class DealerLogin extends JFrame {
 	JTextField DealerIDText, DealerNameText;
 	String DealerName;
 	JButton LoginButton;
+	Color Text = new Color(36, 33, 28), Button = new Color(172, 81, 24), Back = new Color(159, 125, 80);
 	
+	//Constructor
 	public DealerLogin() {
 		CreateLabelPanel();
 		CreateTextFieldPanel();
@@ -27,12 +30,15 @@ class DealerLogin extends JFrame {
 		SetWindow();
 	}
 	
+	//Create label panel
 	private void CreateLabelPanel() {
 		JPanel Left = new JPanel(new GridLayout(2, 1, 30, 30));
 		JLabel DealerIDLabel = new JLabel("DealerID:");
 		JLabel DealerNameLabel = new JLabel("DealerName:");
 		DealerIDLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		DealerNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
+		DealerIDLabel.setForeground(Text);
+		DealerNameLabel.setForeground(Text);
 		Left.add(DealerIDLabel);
 		Left.add(DealerNameLabel);
 		Left.setBounds(70, 70, 120, 80);
@@ -40,6 +46,7 @@ class DealerLogin extends JFrame {
 		container.add(Left);
 	}
 	
+	//Create input part UI
 	private void CreateTextFieldPanel() {
 		JPanel Right = new JPanel(new GridLayout(2, 1, 30, 30));
 		DealerIDText = new JTextField();
@@ -51,6 +58,7 @@ class DealerLogin extends JFrame {
 		container.add(Right);
 	}
 	
+	//Create button
 	private void CreateButtonPanel() {
 		JPanel b = new JPanel(null);
 		LoginButton = new JButton("Login");
@@ -58,12 +66,14 @@ class DealerLogin extends JFrame {
 		LoginButton.setBounds(150, 200, 100, 30);
 		LoginButton.setFont(new Font("Arial", Font.BOLD, 16));
 		LoginButton.setFocusPainted(false);
-		LoginButton.setBackground(new Color(101, 147, 74));;
+		LoginButton.setBackground(Button);;
+		LoginButton.setForeground(Text);
 		b.add(LoginButton);
 		b.setOpaque(false);
 		container.add(b);
 	}
 	
+	//Write button logic here
 	private void SetAction() {
 		LoginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -74,6 +84,7 @@ class DealerLogin extends JFrame {
 		});
 	}
 	
+	//Set window performance
 	private void SetWindow() {
 		setSize(400, 280);
 		setResizable(false);
@@ -84,7 +95,7 @@ class DealerLogin extends JFrame {
 	    int screenHeight = screenSize.height;
 	    this.setLocation(screenWidth/2-windowWidth/2, screenHeight/2-windowHeight/2);
 		setTitle("Login");
-		container.setBackground(new Color(160, 191, 124));
+		container.setBackground(Back);
 		setUndecorated(true);  
         AWTUtilities.setWindowOpacity(this, (float)(0.86));
 		setVisible(true);
@@ -100,6 +111,7 @@ class SearchFrame extends JFrame {
 	JRadioButton New, Used, All;
 	JButton SearchButton, AddButton, ModifyButton, DeleteButton;
 	
+	//Constructor
 	public SearchFrame(String DealerName) {
 		container.setLayout(null);	
 		this.DealerName = DealerName;
@@ -110,6 +122,8 @@ class SearchFrame extends JFrame {
 		SetWindow();
 	}
 	
+	
+	//Create left part panel
 	private void CreateLeftPanel() {
 		LeftPanel = new JPanel();
 		LeftPanel.setLayout(null);
@@ -192,6 +206,8 @@ class SearchFrame extends JFrame {
 		container.add(LeftPanel);
 	}
 	
+	
+	//Create right part panel
 	private void CreateRightPanel() {
 		RightPanel = new JPanel();
 		RightPanel.setOpaque(false);
@@ -236,6 +252,7 @@ class SearchFrame extends JFrame {
 		container.add(RightPanel);
 	}
 	
+	//Write search button logic here
 	private void ButtonAction() {
 		SearchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -244,13 +261,16 @@ class SearchFrame extends JFrame {
 		});
 	}
 	
+	//Set window background
 	private void SetBackground() {
-	    JPanel backImage = new JPanel();
+		File file = new File("INFO5100Final.png");
+		String direction = file.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\");
+	    JLabel backImage = new JLabel(new ImageIcon(direction));
 	    backImage.setBounds(0, 0, 1600, 900);
-	    backImage.setBackground(Color.cyan);
 	    container.add(backImage);
 	}
 	
+	//Set window performance
 	private void SetWindow() {
 		setSize(1600, 900);
 		setResizable(false);
@@ -272,11 +292,9 @@ class ListPanel extends JPanel{
     JRadioButton select;
     
     public ListPanel() {
-        setBorder(BorderFactory.createLineBorder(Color.black));
-        setBorder(BorderFactory.createEmptyBorder(10,0,10,10));
+        setBorder(BorderFactory.createEmptyBorder(20,10,20,20));
         createComponents();
         addComponents();
-        setBorder(BorderFactory.createLineBorder(Color.WHITE, 10, false));
     }
     
     private void createComponents(){
@@ -295,8 +313,6 @@ class ListPanel extends JPanel{
         resultCondition.setPreferredSize(new Dimension(150,50));
         resultYear.setPreferredSize(new Dimension(100,50));
         resultMake.setPreferredSize(new Dimension(100,50));
-
-
     }
     private void addComponents(){
     	add(select);
