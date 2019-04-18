@@ -1,11 +1,11 @@
-package cn.itcast.accounting.view;
+package UI;//package cn.itcast.accounting.view;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class CarDetailUI {
-    
-    
+
+
     public static void main(String[] args) {
         carDetailGUI();
     }
@@ -18,7 +18,7 @@ public class CarDetailUI {
         JPanel imagePanel = new JPanel();
         JLabel imageLabel = new JLabel("Picture");
         JPanel details = new JPanel();
-        
+
         detailFrame.setLayout(new GridLayout(1, 2));
         details.setLayout(new GridLayout(6, 2));
         imageLabel = new JLabel(new ImageIcon("/Users/WUUUT-/Documents/workspace/day31 AccountingAPP/src/cn/itcast/accounting/view/img/jaguar.png"));
@@ -28,7 +28,7 @@ public class CarDetailUI {
         JLabel year = new JLabel("Year: ");
         JLabel category = new JLabel("Category: ");
         JLabel price = new JLabel("Price: ");
-        
+
         GridBagConstraints gbc = new GridBagConstraints();
         detailFrame.getContentPane();
         imagePanel.setLayout(new BorderLayout());
