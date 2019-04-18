@@ -1,4 +1,4 @@
-package car.dabase;
+package database;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -12,7 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class DatabaseConnection {
+import dto.Dealer;
+import dto.Inventory;
+import dto.Vehicle;
+import persist.DealersManager;
+
+public class DatabaseConnection implements DealersManager{
 
 	String URL = "jdbc:sqlserver://is-swang01.ischool.uw.edu;databaseName=Car_Inventory";
 	String USER = "";
@@ -21,7 +26,7 @@ public class DatabaseConnection {
 	public void getUserNameAndPassword() {
 		try {
 			InputStream input = new FileInputStream(
-					"C:\\Users\\A\\eclipse-workspace\\CarDatabaseConnection\\src\\car\\dabase\\connection.properties");
+					"D:\\eclipse-workspace\\JavaFinalProject\\src\\database\\connection.properties");
 			Properties prop = new Properties();
 			// load a properties file
 			prop.load(input);
@@ -78,13 +83,35 @@ public class DatabaseConnection {
 				dealer.setDealerId(rs.getString("Dealerid"));
 				dealer.setDealerName(rs.getString("DealerName"));
 				dealer.setDealerAddress(rs.getString("DealerAddress"));
-				dealer.setZipCode(String.valueOf(rs.getInt("ZipCode")));
-				dealer.setPhoneNumber(String.valueOf(rs.getInt("PhoneNumber")));
+				dealer.setZipCode(rs.getInt("ZipCode"));
+				dealer.setPhoneNumber(rs.getInt("PhoneNumber"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return dealer;
+	}
+	@Override
+	public ArrayList<Dealer> getAllDealers() {
+		ArrayList<Dealer> dealerObjList = new ArrayList<>();
+		//Dealer dealer = new Dealer();
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Connection conn = DriverManager.getConnection(URL, USER, PASS);
+			PreparedStatement statement =conn.prepareStatement("SELECT * from  dbo.Dealer");
+			ResultSet rs = statement.executeQuery();
+
+			while (rs.next()) {
+				
+				dealerObjList.add( new Dealer(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5)));
+				
+				
+			}
+				
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dealerObjList;
 	}
 
 	public Inventory retriveInventoryFromDatabase(String Dealerid, String Vehicleid) {

@@ -6,7 +6,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import database.DatabaseConnection;
+
 public class SearchDealerResult {
+	
+	DatabaseConnection retrieveDataObj = new DatabaseConnection();
 
     ArrayList<String> DealerDistanceList = new ArrayList<>();
     ArrayList<Dealer> searchResult = new ArrayList<>();
@@ -21,8 +25,8 @@ public class SearchDealerResult {
         String originZipCode = Integer.toString(zipcode); //Convert zipcode to string, used this as origin "addr"
         ArrayList<Double> distanceList = new ArrayList<>();  // Distancelist used to store call the calculated distance for each dealer
         String destZipCode; // Store the zipcode of the dealer
-        ArrayList<Dealer> dealerList = DealerList.getDealerList(); // Get all dealer instances and store them in this Arraylist
-
+       // ArrayList<Dealer> dealerList = DealerList.getDealerList(); // Get all dealer instances and store them in this Arraylist
+        ArrayList<Dealer> dealerList = retrieveDataObj.getAllDealers(); // using database dealers list
 
         for (Dealer dl : dealerList){
             destZipCode= Integer.toString(dl.getZipCode());
@@ -59,7 +63,8 @@ public class SearchDealerResult {
 
     public ArrayList<Dealer> getDealerObjListByName(String dealerName){
 
-        ArrayList<Dealer> dealerList = DealerList.getDealerList();
+        //ArrayList<Dealer> dealerList = DealerList.getDealerList();	// commented this dummy data
+    	 ArrayList<Dealer> dealerList = retrieveDataObj.getAllDealers(); // using database dealers list
         ArrayList<Dealer> dealerObjList = new ArrayList<>();
         String searchCriteria = dealerName.toLowerCase();
         for (Dealer dl : dealerList){
@@ -77,10 +82,12 @@ public class SearchDealerResult {
     public  ArrayList<String> getDistanceList (){
         return DealerDistanceList;
     }
+    
+   
 
 
     // Class to provide function to sort array
-    class distanceElement implements Comparable<distanceElement>{
+    public class distanceElement implements Comparable<distanceElement>{
         int index;
         double value;
         distanceElement(int index, double value){

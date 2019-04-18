@@ -1,4 +1,4 @@
-package searchDealerLogic;
+/*package searchDealerLogic;
 
 import dto.Dealer;
 
@@ -24,4 +24,4 @@ public class DealerList {
         return dealerObjList;
 
     }
-}
+}*/

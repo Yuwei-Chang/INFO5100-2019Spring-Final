@@ -1,42 +1,47 @@
 package dto;
 
 public class Dealer {
-	private String name;
-	private String address;
-	private String id;
+	private String dealerId;
+	private String dealerName;
+	private String dealerAddress;
 	private int zipCode;
 	private int phoneNumber;
 	
-	public Dealer(String name, String address, String id, int zipCode, int phoneNumber) {
-        this.setName(name);
-        this.setAddress(address);
-        this.setId(id);
+	public Dealer(String dealerId, String dealerName, String dealerAddress, int zipCode, int phoneNumber) {
+		this.setDealerId(dealerId);
+		this.setDealerName(dealerName);
+        this.setDealerAddress(dealerAddress);
         this.setZipCode(zipCode);
         this.setPhoneNumber(phoneNumber);
     }
 
-	public String getName() {
-		return name;
+	public Dealer() {
 	}
 
-	public void setName(String name) {
-		this.name = name;
+
+	
+	public String getName() {
+		return dealerName;
+	}
+
+	public void setDealerName(String name) {
+		this.dealerName = name;
 	}
 
 	public String getAddress() {
-		return address;
+		return dealerAddress;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setDealerAddress(String address) {
+		this.dealerAddress = address;
 	}
 
 	public String getId() {
-		return id;
+		return dealerId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setDealerId(String id) {
+		this.dealerId = id;
 	}
 
 	public int getZipCode() {
@@ -54,4 +59,10 @@ public class Dealer {
 	public void setPhoneNumber(int phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+	
+	@Override
+    public String toString(){
+		return getName(); 
+    	
+    }
 }
