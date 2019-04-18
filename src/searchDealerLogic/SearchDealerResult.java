@@ -1,20 +1,19 @@
 package searchDealerLogic;
 
+import database.DatabaseConnection;
 import dto.Dealer;
+import persist.DealersManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
-import database.DatabaseConnection;
-
-public class SearchDealerResult {
-	
-	DatabaseConnection retrieveDataObj = new DatabaseConnection();
+public class SearchDealerResult implements DealersManager {
 
     ArrayList<String> DealerDistanceList = new ArrayList<>();
     ArrayList<Dealer> searchResult = new ArrayList<>();
-
+    DatabaseConnection getAllDealer = new DatabaseConnection();
 
 
     public ArrayList<Dealer> getDealerObjListByDistance(int zipcode) throws IOException {
@@ -25,8 +24,8 @@ public class SearchDealerResult {
         String originZipCode = Integer.toString(zipcode); //Convert zipcode to string, used this as origin "addr"
         ArrayList<Double> distanceList = new ArrayList<>();  // Distancelist used to store call the calculated distance for each dealer
         String destZipCode; // Store the zipcode of the dealer
-       // ArrayList<Dealer> dealerList = DealerList.getDealerList(); // Get all dealer instances and store them in this Arraylist
-        ArrayList<Dealer> dealerList = retrieveDataObj.getAllDealers(); // using database dealers list
+        ArrayList<Dealer> dealerList = getAllDealer.getAllDealers(); // Get all dealer instances and store them in this Arraylist
+
 
         for (Dealer dl : dealerList){
             destZipCode= Integer.toString(dl.getZipCode());
@@ -41,9 +40,9 @@ public class SearchDealerResult {
         ArrayList<Integer> trackIndex = new ArrayList<>();
         ArrayList<distanceElement> distanceElements = new ArrayList<>();
 
-        for (Double dist : distanceList){
-            int i = 0;
-            distanceElements.add(new distanceElement(i,dist));
+        for (int i = 0; i < distanceList.size(); i++){
+
+            distanceElements.add(new distanceElement(i,distanceList.get(i)));
         }
         Collections.sort(distanceElements);
 
@@ -52,10 +51,13 @@ public class SearchDealerResult {
             trackIndex.add(ele.index);
         }
 
-        for (Double sdl : sortedDistanceList){
-            int i = 0;
-            searchResult.add(dealerList.get(trackIndex.get(i)));
-            DealerDistanceList.add(sdl+" Miles");
+
+        for (int m =0; m < sortedDistanceList.size();m++){
+
+            searchResult.add(dealerList.get(trackIndex.get(m)));
+
+            DealerDistanceList.add(sortedDistanceList.get(m)+" Miles");
+
         }
         return searchResult;
 
@@ -63,8 +65,7 @@ public class SearchDealerResult {
 
     public ArrayList<Dealer> getDealerObjListByName(String dealerName){
 
-        //ArrayList<Dealer> dealerList = DealerList.getDealerList();	// commented this dummy data
-    	 ArrayList<Dealer> dealerList = retrieveDataObj.getAllDealers(); // using database dealers list
+        ArrayList<Dealer> dealerList = DealerList.getDealerList();
         ArrayList<Dealer> dealerObjList = new ArrayList<>();
         String searchCriteria = dealerName.toLowerCase();
         for (Dealer dl : dealerList){
@@ -82,12 +83,15 @@ public class SearchDealerResult {
     public  ArrayList<String> getDistanceList (){
         return DealerDistanceList;
     }
-    
-   
+
+    @Override
+    public Collection<Dealer> getAllDealers() {
+        return null;
+    }
 
 
     // Class to provide function to sort array
-    public class distanceElement implements Comparable<distanceElement>{
+    class distanceElement implements Comparable<distanceElement>{
         int index;
         double value;
         distanceElement(int index, double value){
