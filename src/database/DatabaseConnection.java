@@ -162,4 +162,39 @@ public class DatabaseConnection implements DealersManager{
 		}
 		return vehicleList;
 	}
+	public List<Vehicle> getVehicles(String dealerId,String make,String model,String category)
+	 {
+
+    	getUserNameAndPassword();
+    	List<Vehicle> vehicleList1 = new ArrayList<>();
+    	List<String> vehicleIds = new ArrayList<>();
+    	try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Connection conn = DriverManager.getConnection(URL, USER, PASS);
+			PreparedStatement statement = conn.prepareStatement("select v.Vehicleid , v.Category, v.Make, v.Model from dbo.inventory i join dbo.Dealer d on i.Dealerid=d.Dealerid join dbo.Vehicle v on i.Vehicleid= v.vehicleid where d.Dealerid = ? and v.Category=? and v.Make=? and v.Model=?");
+			 statement.setString(1, dealerId);
+			 statement.setString(2, category);
+			  statement.setString(3, make); 
+			  statement.setString(4, model);
+			  
+		
+			ResultSet rs = statement.executeQuery();
+			 System.out.println("Result Size " + rs.getFetchSize());
+			while (rs.next()) {
+				System.out.println("Vehicle Id " + rs.getString("Category"));
+				vehicleIds.add(rs.getString("Vehicleid"));
+				}
+    	
+			for(String vehicleId : vehicleIds)
+			{
+				Vehicle vehicle = retriveVehicleFromDatabase(vehicleId);
+				vehicleList1.add(vehicle);
+			}
+    	}
+    	catch(Exception ex)
+    	{
+    		ex.printStackTrace();
+    	}
+    	return vehicleList1;    	
+    }
 }
