@@ -65,7 +65,7 @@ public class SearchDealerResult implements DealersManager {
 
     public ArrayList<Dealer> getDealerObjListByName(String dealerName){
 
-        ArrayList<Dealer> dealerList = DealerList.getDealerList();
+        ArrayList<Dealer> dealerList = getAllDealer.getAllDealers();
         ArrayList<Dealer> dealerObjList = new ArrayList<>();
         String searchCriteria = dealerName.toLowerCase();
         for (Dealer dl : dealerList){
