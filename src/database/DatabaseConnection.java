@@ -93,8 +93,9 @@ public class DatabaseConnection implements DealersManager{
 	}
 	@Override
 	public ArrayList<Dealer> getAllDealers() {
+		getUserNameAndPassword();
 		ArrayList<Dealer> dealerObjList = new ArrayList<>();
-		//Dealer dealer = new Dealer();
+		//Deale000000r dealer = new Dealer();
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection conn = DriverManager.getConnection(URL, USER, PASS);
@@ -103,7 +104,7 @@ public class DatabaseConnection implements DealersManager{
 
 			while (rs.next()) {
 
-				dealerObjList.add( new Dealer(rs.getString(2),rs.getString(3),rs.getString(1),rs.getInt(4),rs.getInt(5)));
+				dealerObjList.add( new Dealer(rs.getString("Dealerid"),rs.getString("DealerName"),rs.getString("DealerAddress"),rs.getInt("ZipCode"),rs.getInt("PhoneNumber")));
 
 
 			}

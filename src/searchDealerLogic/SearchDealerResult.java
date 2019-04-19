@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class SearchDealerResult implements DealersManager {
+public class SearchDealerResult {
 
     ArrayList<String> DealerDistanceList = new ArrayList<>();
     ArrayList<Dealer> searchResult = new ArrayList<>();
-    DatabaseConnection getAllDealer = new DatabaseConnection();
+    DatabaseConnection getAllDealerObj = new DatabaseConnection();
 
 
     public ArrayList<Dealer> getDealerObjListByDistance(int zipcode) throws IOException {
@@ -24,7 +24,7 @@ public class SearchDealerResult implements DealersManager {
         String originZipCode = Integer.toString(zipcode); //Convert zipcode to string, used this as origin "addr"
         ArrayList<Double> distanceList = new ArrayList<>();  // Distancelist used to store call the calculated distance for each dealer
         String destZipCode; // Store the zipcode of the dealer
-        ArrayList<Dealer> dealerList = getAllDealer.getAllDealers(); // Get all dealer instances and store them in this Arraylist
+        ArrayList<Dealer> dealerList = getAllDealerObj.getAllDealers(); // Get all dealer instances and store them in this Arraylist
 
 
         for (Dealer dl : dealerList){
@@ -65,7 +65,7 @@ public class SearchDealerResult implements DealersManager {
 
     public ArrayList<Dealer> getDealerObjListByName(String dealerName){
 
-        ArrayList<Dealer> dealerList = getAllDealer.getAllDealers();
+        ArrayList<Dealer> dealerList = getAllDealerObj.getAllDealers();
         ArrayList<Dealer> dealerObjList = new ArrayList<>();
         String searchCriteria = dealerName.toLowerCase();
         for (Dealer dl : dealerList){
@@ -84,10 +84,6 @@ public class SearchDealerResult implements DealersManager {
         return DealerDistanceList;
     }
 
-    @Override
-    public Collection<Dealer> getAllDealers() {
-        return null;
-    }
 
 
     // Class to provide function to sort array

@@ -61,8 +61,8 @@ public class Dealer {
 	}
 	
 	@Override
-    public String toString(){
-		return getName(); 
-    	
-    }
+	public String toString() {
+		return "Dealer [dealerId=" + dealerId + ", dealerName=" + dealerName + ", dealerAddress=" + dealerAddress
+				+ ", zipCode=" + zipCode + ", phoneNumber=" + phoneNumber + "]";
+	}
 }
