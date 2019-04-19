@@ -89,13 +89,15 @@ public class DeleteCarUI extends JFrame{
 	    this.setLocation(screenWidth/2-windowWidth/2, screenHeight/2-windowHeight/2);
 	    
 		setTitle("Confirm Delete");	
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		
 		OkayButton.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent d) {
-							
+				
+				dispose();
+				
 				String URL = "jdbc:sqlserver://is-swang01.ischool.uw.edu;databaseName=Car_Inventory";
 				String USER = "INFO6210";
 				String PASS = "NEUHusky!";
@@ -103,17 +105,21 @@ public class DeleteCarUI extends JFrame{
 				try {
 					Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 					Connection conn = DriverManager.getConnection(URL, USER, PASS);
-					PreparedStatement p = conn.prepareStatement("select * from  dbo.Inventory WHERE vehicleId ="+"'"+label2.getText()+"'");
+					PreparedStatement p = conn.prepareStatement("select * from  dbo.Inventory WHERE Vehicleid ="+"'"+label2.getText()+"'");
 					ResultSet r=p.executeQuery();
 					
 					if(r.next()==true) {
-					PreparedStatement ps = conn.prepareStatement("Delete from  dbo.Inventory WHERE vehicleId ="+"'"+label2.getText()+"'");
+					PreparedStatement ps = conn.prepareStatement("Delete from  dbo.Inventory WHERE Vehicleid ="+"'"+label2.getText()+"'");
 					ps.executeUpdate();
 					JOptionPane.showMessageDialog(null, "Vehicle Successfully Deleted from Inventory");
+					setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 					}
 					
 					else {
 						JOptionPane.showMessageDialog(null, "Vehicle not available in Inventory");
+						setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 					}
 					
 				} catch (ClassNotFoundException e) {
@@ -127,7 +133,17 @@ public class DeleteCarUI extends JFrame{
 				
 				
 		});
-			
+		
+//		CancelButton.addActionListener(new ActionListener() {
+//			
+//			public void actionPerformed(ActionEvent c) {
+//				
+//				SwingTest.class
+//			}
+//			
+//		});
+//		
 	}	
 
 }
+
