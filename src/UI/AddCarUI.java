@@ -2,6 +2,13 @@ package UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AddCarUI extends JFrame{
     public AddCarUI() {
@@ -83,6 +90,47 @@ public class AddCarUI extends JFrame{
         setTitle("Add Page");
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
+        submitButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				if(VehicleIdText.getText().isEmpty()) {
+					dispose();
+					JOptionPane.showMessageDialog(null, "Vehicle is not Added");
+					 setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+				}
+			
+				String URL = "jdbc:sqlserver://is-swang01.ischool.uw.edu;databaseName=Car_Inventory";
+				String USER = "INFO6210";
+				String PASS = "NEUHusky!";
+				
+				
+				try {
+					Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+					Connection conn = DriverManager.getConnection(URL, USER, PASS);
+					PreparedStatement p = conn.prepareStatement("select * from  dbo.Vehicle WHERE Vehicleid ="+"'"+VehicleIdText.getText()+"'");
+					ResultSet r=p.executeQuery();
+					
+					if(r.next()==false) {
+					PreparedStatement ps = conn.prepareStatement("Insert into dbo.Vehicle values('"
+											+VehicleIdText.getText()+"','"+CategoryText.getText()+"','"+YearText.getText()
+											+"','"+MakeText.getText()+"','"+ModelText.getText()+"','"+TypeText.getText()
+											+"','"+SeatCountText.getText()+"','"+MileageText.getText()+"','"+PriceText.getText()+"');");
+					ps.executeUpdate();
+					JOptionPane.showMessageDialog(null, "Vehicle is Successfully Added");
+					
+					}
+					
+				} catch (ClassNotFoundException c) {
+					// TODO Auto-generated catch block
+					c.printStackTrace();
+				} catch (SQLException s) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Vehicle alreay exists");
+				}
+			}
+        });
 
 
     }
