@@ -2,6 +2,13 @@ package UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ModifyCarUI extends JFrame{
     public ModifyCarUI() {
@@ -19,9 +26,8 @@ public class ModifyCarUI extends JFrame{
         bottom.setBounds(100, 70, 300, 200);
         bottom.setLocation(350, 340);
 
-        //Brand
-        JLabel BrandLabel = new JLabel("Brand:");
-        JTextField BrandText = new JTextField();
+        JLabel VehicleidLabel = new JLabel("Vehicleid:");
+        JTextField VehicleidText = new JTextField();
         //Model
         JLabel ModelLabel = new JLabel("Model:");
         JTextField ModelText = new JTextField();
@@ -34,18 +40,26 @@ public class ModifyCarUI extends JFrame{
         //Category
         JLabel CategoryLabel = new JLabel("Category:");
         JTextField CategoryText = new JTextField();
-        //Detail
-        JLabel DetailLabel = new JLabel("Detail:");
-        JTextField DetailText = new JTextField();
-
+        //Make
+        JLabel MakeLabel = new JLabel("Make:");
+        JTextField MakeText = new JTextField();
+        //Type
+        JLabel TypeLabel = new JLabel("Type:");
+        JTextField TypeText = new JTextField();
+        //SeatCount
+        JLabel SeatCountLabel = new JLabel("SeatCount:");
+        JTextField SeatCountText = new JTextField();
+        //Mileage
+        JLabel MileageLabel = new JLabel("Mileage:");
+        JTextField MileageText = new JTextField();
         //Submit
         JButton submitButton = new JButton("Modify");
         submitButton.setFocusPainted(false);
         submitButton.setBounds(150, 200, 90, 30);
         submitButton.setLocation(440, 590);
 
-        top.add(BrandLabel);
-        top.add(BrandText);
+       top.add(VehicleidLabel);
+        top.add(VehicleidText);
         top.add(ModelLabel);
         top.add(ModelText);
         main.add(PriceLabel);
@@ -54,8 +68,15 @@ public class ModifyCarUI extends JFrame{
         main.add(YearText);
         bottom.add(CategoryLabel);
         bottom.add(CategoryText);
-        bottom.add(DetailLabel);
-        bottom.add(DetailText);
+        bottom.add(SeatCountText);
+        bottom.add(MakeLabel);
+        bottom.add(MakeText);
+        bottom.add(MileageLabel);
+        bottom.add(MileageText);
+        bottom.add(TypeLabel);
+        bottom.add(TypeText);
+//        bottom.add(DetailLabel);
+//        bottom.add(DetailText);
 
 
         container.add(top);
@@ -68,6 +89,51 @@ public class ModifyCarUI extends JFrame{
         setTitle("Modify Page");
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+
+        submitButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				
+				String URL = "jdbc:sqlserver://is-swang01.ischool.uw.edu;databaseName=Car_Inventory";
+				String USER = "INFO6210";
+				String PASS = "NEUHusky!";
+				
+				try {
+					Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+					Connection conn = DriverManager.getConnection(URL, USER, PASS);
+					PreparedStatement p = conn.prepareStatement("select * from  dbo.Vehicle WHERE Vehicleid ='"+VehicleidText.getText()+"'");
+					ResultSet r=p.executeQuery();
+					
+					if(r.next()==true) {
+					PreparedStatement ps = conn.prepareStatement("update dbo.Vehicle set Vehicleid ='"+VehicleidText.getText()+"',Model='"+ModelText.getText()
+											+"',Price='"+PriceText.getText()+"',Category='"+CategoryText.getText()
+											+"',Year='"+YearText.getText()+"',Make='"+MakeText.getText()+"',Mileage='"
+											+MileageText.getText()+"',Type='"+TypeText.getText()+"',SeatCount='"+SeatCountText.getText()
+											+"' where Vehicleid='"+VehicleidText.getText()+"'");
+					ps.executeUpdate();
+					//ps.executeUpdate(VehicleidText.getText());
+					JOptionPane.showMessageDialog(null, "Vehicle is Successfully Modified");
+					}
+					
+					else {
+						System.out.println("Vehicle not found");
+					}
+					
+				} catch (ClassNotFoundException c) {
+					// TODO Auto-generated catch block
+					c.printStackTrace();
+				} catch (SQLException s) {
+					// TODO Auto-generated catch block
+					s.printStackTrace();
+				} catch (Exception exp) {
+					// TODO Auto-generated catch block
+					exp.printStackTrace();
+				}
+			}
+        });
 
 
     }
