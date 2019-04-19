@@ -3,7 +3,7 @@ package database;
 import dto.Dealer;
 import dto.Inventory;
 import dto.Vehicle;
-import persist.DealersManager;
+
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class DatabaseConnection implements DealersManager{
+public class DatabaseConnection {
 
 	String URL = "jdbc:sqlserver://is-swang01.ischool.uw.edu;databaseName=Car_Inventory";
 	String USER = "";
@@ -82,14 +82,14 @@ public class DatabaseConnection implements DealersManager{
 				dealer.setDealerName(rs.getString("DealerName"));
 				dealer.setDealerAddress(rs.getString("DealerAddress"));
 				dealer.setZipCode(rs.getInt("ZipCode"));
-				dealer.setPhoneNumber(rs.getInt("PhoneNumber"));
+				dealer.setPhoneNumber(rs.getLong("PhoneNumber"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return dealer;
 	}
-	@Override
+	
 	public ArrayList<Dealer> getAllDealers() {
 		getUserNameAndPassword();
 		ArrayList<Dealer> dealerObjList = new ArrayList<>();
@@ -102,7 +102,7 @@ public class DatabaseConnection implements DealersManager{
 
 			while (rs.next()) {
 
-				dealerObjList.add( new Dealer(rs.getString("Dealerid"),rs.getString("DealerName"),rs.getString("DealerAddress"),rs.getInt("ZipCode"),rs.getInt("PhoneNumber")));
+				dealerObjList.add( new Dealer(rs.getString("Dealerid"),rs.getString("DealerName"),rs.getString("DealerAddress"),rs.getInt("ZipCode"),rs.getLong("PhoneNumber")));
 
 
 			}

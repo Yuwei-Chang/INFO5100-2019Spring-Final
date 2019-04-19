@@ -5,10 +5,10 @@ public class Dealer {
 	private String dealerName;
 	private String dealerAddress;
 	private int zipCode;
-	private int phoneNumber;
+	private long phoneNumber;
 	private String distanceToCustomer;
 	
-	public Dealer(String dealerId, String dealerName, String dealerAddress, int zipCode, int phoneNumber) {
+	public Dealer(String dealerId, String dealerName, String dealerAddress, int zipCode, long phoneNumber) {
 		this.setDealerId(dealerId);
 		this.setDealerName(dealerName);
         this.setDealerAddress(dealerAddress);
@@ -53,11 +53,11 @@ public class Dealer {
 		this.zipCode = zipCode;
 	}
 
-	public int getPhoneNumber() {
+	public long getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(int phoneNumber) {
+	public void setPhoneNumber(long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 	
