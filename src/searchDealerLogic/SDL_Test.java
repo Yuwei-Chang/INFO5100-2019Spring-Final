@@ -1,6 +1,9 @@
 package searchDealerLogic;
 
+import dto.Dealer;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 /*
 
@@ -32,10 +35,14 @@ public class SDL_Test {
 
         DealerDistance.getDistance("97133","97109"); //Test if the Calculation Web service working. It should print our a distance
         SearchDealerResult newResult = new SearchDealerResult();
-        System.out.println(newResult.getDealerObjListByDistance(98133)); // Test if the searchDealer method working. It should return an Arraylist
-        System.out.println(newResult.getDistanceList());
-        System.out.println(newResult.getDealerObjListByName("Honda"));
+        ArrayList<Dealer> sortedDealerList = newResult.getDealerObjListByDistance(98133);
+        //System.out.println(sortedDealerList); // Test if the searchDealer method working. It should return an Arraylist
+        //System.out.println(newResult.getDistanceList());
+        //System.out.println(newResult.getDealerObjListByName("Honda"));
 
+        for (int i =0; i< sortedDealerList.size();i++){
+            System.out.print(sortedDealerList.get(i).getName() +   "    "+  sortedDealerList.get(i).getDistanceToCustomer() +" ");
+        }
 
 
     }

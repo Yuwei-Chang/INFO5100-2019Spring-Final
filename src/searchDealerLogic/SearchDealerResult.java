@@ -2,11 +2,9 @@ package searchDealerLogic;
 
 import database.DatabaseConnection;
 import dto.Dealer;
-import persist.DealersManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class SearchDealerResult {
@@ -57,6 +55,8 @@ public class SearchDealerResult {
             searchResult.add(dealerList.get(trackIndex.get(m)));
 
             DealerDistanceList.add(sortedDistanceList.get(m)+" Miles");
+
+            dealerList.get(trackIndex.get(m)).setDistanceToCustomer(DealerDistanceList.get(m));
 
         }
         return searchResult;

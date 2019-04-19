@@ -1,21 +1,19 @@
 package database;
 
+import dto.Dealer;
+import dto.Inventory;
+import dto.Vehicle;
+import persist.DealersManager;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import dto.Dealer;
-import dto.Inventory;
-import dto.Vehicle;
-import persist.DealersManager;
 
 public class DatabaseConnection implements DealersManager{
 
@@ -26,7 +24,7 @@ public class DatabaseConnection implements DealersManager{
 	public void getUserNameAndPassword() {
 		try {
 			InputStream input = new FileInputStream(
-					"D:\\eclipse-workspace\\JavaFinalProject\\src\\database\\connection.properties");
+					".\\src\\database\\connection.properties");
 			Properties prop = new Properties();
 			// load a properties file
 			prop.load(input);

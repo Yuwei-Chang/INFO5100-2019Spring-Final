@@ -1,10 +1,12 @@
-package searchDelarLogic
 
-import dto.Vehicle
+package searchDelarLogic;
+
+import dto.Inventory;
+import dto.Vehicle;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class Sort{
     public Inventory SortBySelection(SortType sortType, Inventory inventory){

@@ -6,6 +6,7 @@ public class Dealer {
 	private String dealerAddress;
 	private int zipCode;
 	private int phoneNumber;
+	private String distanceToCustomer;
 	
 	public Dealer(String dealerId, String dealerName, String dealerAddress, int zipCode, int phoneNumber) {
 		this.setDealerId(dealerId);
@@ -64,5 +65,13 @@ public class Dealer {
 	public String toString() {
 		return "Dealer [dealerId=" + dealerId + ", dealerName=" + dealerName + ", dealerAddress=" + dealerAddress
 				+ ", zipCode=" + zipCode + ", phoneNumber=" + phoneNumber + "]";
+	}
+
+	public void setDistanceToCustomer(String distanceToCustomer) {
+		this.distanceToCustomer = distanceToCustomer;
+	}
+
+	public String getDistanceToCustomer() {
+		return distanceToCustomer;
 	}
 }
