@@ -26,7 +26,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.sun.awt.AWTUtilities;
 
 
 public class DeleteCarUI extends JFrame{
@@ -37,8 +36,7 @@ public class DeleteCarUI extends JFrame{
 		delcontainer.setLayout(new BorderLayout());
 		delcontainer.setBackground(new Color(244, 167, 66));
 		
-		JPanel panel=new JPanel();
-		panel.setLayout(new GridBagLayout());
+		JPanel panel=new JPanel(new GridBagLayout());
 		delcontainer.add(panel,BorderLayout.CENTER);
 		JLabel label=new JLabel("Vehicleid:");
 		Font f=new Font("Arial", Font.BOLD, 20);
@@ -57,12 +55,24 @@ public class DeleteCarUI extends JFrame{
 		panel.add(label2, c);
 		//panel.setBounds(10, 10, 20, 20);
 		panel.setOpaque(false);
-		JPanel panel2=new JPanel();	
+		JPanel panel2=new JPanel(new GridBagLayout());	
 		JButton OkayButton=new JButton("OK");
+		JButton CancelButton=new JButton("Cancel");
 		OkayButton.setFont(f);
-		OkayButton.setBackground(new Color(244, 103, 65));
+		CancelButton.setFont(f);
+		Color cl= new Color(244, 103, 65);
+		OkayButton.setBackground(cl);
+		CancelButton.setBackground(cl);
 		OkayButton.setFocusPainted(false);
-		panel2.add(OkayButton, BorderLayout.CENTER);
+		OkayButton.setFocusPainted(false);
+		c.insets= new Insets(10,10,10,10);
+		c.gridx=4;
+		c.gridy=8;
+		panel2.add(OkayButton,c);
+		c.gridx=5;
+		c.gridy=8;
+		panel2.add(CancelButton,c);
+		//panel2.add(OkayButton, BorderLayout.CENTER);
 		//panel2.setBounds(5, 5, 10, 10);
 		panel2.setOpaque(false);
 		delcontainer.add(panel2,BorderLayout.SOUTH);
@@ -93,10 +103,18 @@ public class DeleteCarUI extends JFrame{
 				try {
 					Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 					Connection conn = DriverManager.getConnection(URL, USER, PASS);
+					PreparedStatement p = conn.prepareStatement("select * from  dbo.Inventory WHERE vehicleId ="+"'"+label2.getText()+"'");
+					ResultSet r=p.executeQuery();
+					
+					if(r.next()==true) {
 					PreparedStatement ps = conn.prepareStatement("Delete from  dbo.Inventory WHERE vehicleId ="+"'"+label2.getText()+"'");
 					ps.executeUpdate();
-					
 					JOptionPane.showMessageDialog(null, "Vehicle Successfully Deleted from Inventory");
+					}
+					
+					else {
+						JOptionPane.showMessageDialog(null, "Vehicle not available in Inventory");
+					}
 					
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -109,7 +127,7 @@ public class DeleteCarUI extends JFrame{
 				
 				
 		});
-		
+			
 	}	
 
 }
