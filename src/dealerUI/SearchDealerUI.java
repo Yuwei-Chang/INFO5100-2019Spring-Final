@@ -93,7 +93,7 @@ public class SearchDealerUI extends JFrame{
 				}
 				else if(isZipCodeOption){
 					try {
-						zipCodeMatchResult= newObj.getDealerObjListByDistance(Integer.parseInt(zipCodeText.getText()));
+						zipCodeMatchResult= newObj.getDealerObjListByDistance(Integer.parseInt(zipCodeText.getText()),30);
 						ListOfDealerUI listDealerDisplay= new ListOfDealerUI(zipCodeMatchResult);
 					} catch (NumberFormatException | IOException e) {
 						// TODO Auto-generated catch block

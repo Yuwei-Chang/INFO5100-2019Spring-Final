@@ -35,7 +35,7 @@ public class SDL_Test {
 
         DealerDistance.getDistance("97133","97109"); //Test if the Calculation Web service working. It should print our a distance
         SearchDealerResult newResult = new SearchDealerResult();
-        ArrayList<Dealer> sortedDealerList = newResult.getDealerObjListByDistance(98133);
+        ArrayList<Dealer> sortedDealerList = newResult.getDealerObjListByDistance(98133,30);
         //System.out.println(sortedDealerList); // Test if the searchDealer method working. It should return an Arraylist
         //System.out.println(newResult.getDistanceList());
         //System.out.println(newResult.getDealerObjListByName("Honda"));

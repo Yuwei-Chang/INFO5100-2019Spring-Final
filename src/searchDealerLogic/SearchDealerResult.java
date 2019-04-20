@@ -14,9 +14,10 @@ public class SearchDealerResult {
     DatabaseConnection getAllDealerObj = new DatabaseConnection();
 
 
-    public ArrayList<Dealer> getDealerObjListByDistance(int zipcode) throws IOException {
+    public ArrayList<Dealer> getDealerObjListByDistance(int zipcode, int range) throws IOException {
 
         DealerDistanceList.clear();
+        searchResult.clear();
 
         // Logic code to retrieve all the distance based on zipcode
         String originZipCode = Integer.toString(zipcode); //Convert zipcode to string, used this as origin "addr"
@@ -52,12 +53,16 @@ public class SearchDealerResult {
 
         for (int m =0; m < sortedDistanceList.size();m++){
 
-            searchResult.add(dealerList.get(trackIndex.get(m)));
+            if (sortedDistanceList.get(m) >= range){
 
-            DealerDistanceList.add(sortedDistanceList.get(m)+" Miles");
+                break;
+            }else {
+                searchResult.add(dealerList.get(trackIndex.get(m)));
 
-            dealerList.get(trackIndex.get(m)).setDistanceToCustomer(DealerDistanceList.get(m));
+                DealerDistanceList.add(sortedDistanceList.get(m) + " Miles");
 
+                dealerList.get(trackIndex.get(m)).setDistanceToCustomer(DealerDistanceList.get(m));
+            }
         }
         return searchResult;
 
