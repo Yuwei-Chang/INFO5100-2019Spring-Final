@@ -36,7 +36,7 @@ public class DatabaseConnection {
 		}
 	}
 
-	public Vehicle retriveVehicleFromDatabase(String vehicleId) {
+	public Vehicle getVehicle(String vehicleId) {
 		getUserNameAndPassword();
 		Vehicle vehicle = new Vehicle();
 		try {
@@ -68,7 +68,7 @@ public class DatabaseConnection {
 		return vehicle;
 	}
 
-	public Dealer retriveDealerFromDatabase(String Dealerid) {
+	public Dealer getDealer(String Dealerid) {
 		getUserNameAndPassword();
 		Dealer dealer = new Dealer();
 		try {
@@ -113,7 +113,7 @@ public class DatabaseConnection {
 		return dealerObjList;
 	}
 
-	public Inventory retriveInventoryFromDatabase(String Dealerid, String Vehicleid) {
+	public Inventory getInventory(String Dealerid, String Vehicleid) {
 		getUserNameAndPassword();
 		Inventory inventory = new Inventory();
 		try {
@@ -197,4 +197,58 @@ public class DatabaseConnection {
     	}
     	return vehicleList1;    	
     }
+	
+	  public void saveImageForId(String vehicleId, String imageLocation) {
+		  try
+		  {
+		  getUserNameAndPassword();
+		  Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Connection conn = DriverManager.getConnection(URL, USER, PASS);
+			   File file = new File(imageLocation);
+               FileInputStream fis = new FileInputStream(file);
+             int len = (int)file.length();
+          String query = "INSERT INTO CARIMAGES values(?,?)";
+          PreparedStatement pstmt = conn.prepareStatement(query);
+          pstmt.setString(1,vehicleId );
+          pstmt.setBinaryStream(2, fis, len); 
+          pstmt.execute();
+          pstmt.close();
+		  }
+		  catch(Exception ex)
+		  {
+			  ex.printStackTrace();
+		  }
+	  }
+	  
+	  
+	  public void retriveVehicleImage(String vehicleId)
+	  {
+		  try
+		  {
+		  getUserNameAndPassword();
+		  Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		  Connection conn = DriverManager.getConnection(URL, USER, PASS);
+		PreparedStatement statement = conn.prepareStatement("select * from CARIMAGES where Vehicleid=?");
+		 statement.setString(1, vehicleId);
+		 ResultSet rs = statement.executeQuery();
+		 byte[] fileBytes;
+		 while (rs.next()) {
+			 fileBytes = rs.getBytes("FileStreamCol");
+			 OutputStream targetFile=  
+                     new FileOutputStream(
+                          "C://Users//A//Desktop//Cars//" + vehicleId + ".JPG");
+			  targetFile.write(fileBytes);
+              targetFile.close();
+		 }
+		  }
+		  catch(Exception ex)
+		  {
+			  ex.printStackTrace();
+		  }
+			
+		  
+		  
+	  }
+	 
+	
 }
