@@ -14,8 +14,9 @@ import searchDealerLogic.SearchDealerResult;
 
 public class SearchDealerUI extends JFrame{
 	
-	//protected JLabel nameLabel, zipCodeLabel;
+	private JLabel distanceRange;
 	private JTextField nameText, zipCodeText;
+	private JComboBox c1;
 	private JButton search;
 	private JRadioButton radioButtonName;
 	private JRadioButton radioButtonZipCode;
@@ -27,7 +28,8 @@ public class SearchDealerUI extends JFrame{
 	private boolean isZipCodeOption=false;
 	ArrayList<Dealer> nameMatchResult = new ArrayList<>();
 	ArrayList<Dealer> zipCodeMatchResult = new ArrayList<>();
-	
+	String s1[] = { "10", "20", "30", "40"};
+
 	public SearchDealerUI() {
 		createComponents();
 		addComponents();
@@ -39,10 +41,11 @@ public class SearchDealerUI extends JFrame{
 	
 	private void createComponents() {
 		//nameLabel = new JLabel("Dealer Name", JLabel.RIGHT);
-		//zipCodeLabel = new JLabel("Zip code", JLabel.RIGHT);
+		distanceRange = new JLabel("Distance Range", JLabel.LEFT);
 		nameText = new JTextField(10);
 		//nameText.setLocation(10,10);
-		
+		//distanceRangeText = new JTextField();
+		c1 = new JComboBox(s1);
 		zipCodeText = new JTextField(10);
 		search = new JButton("Search");
 		radioButtonName= new JRadioButton("Dealers Name");
@@ -56,7 +59,7 @@ public class SearchDealerUI extends JFrame{
 		con.setLayout(new BorderLayout());
 
 		jpanel = new JPanel();
-		jpanel.setLayout(new GridLayout(3, 2));
+		jpanel.setLayout(new GridLayout(4, 2));
 		TitledBorder border = new TitledBorder("Dealers in Seattle, WA");
 	    border.setTitleJustification(TitledBorder.CENTER);
 	    border.setTitlePosition(TitledBorder.TOP);
@@ -67,14 +70,16 @@ public class SearchDealerUI extends JFrame{
 		jpanel.add(nameText);
 		jpanel.add(radioButtonZipCode);
 		jpanel.add(zipCodeText);
+		jpanel.add(distanceRange);
+		jpanel.add(c1);
 		jpanel.add(search);
 		jpanel.add(dealerInventory);
 		con.add(jpanel, "Center");
 		
 		myButtonGroup.add(radioButtonName);
 		myButtonGroup.add(radioButtonZipCode);
-		
-		
+
+
 
 	}
 	
@@ -93,7 +98,9 @@ public class SearchDealerUI extends JFrame{
 				}
 				else if(isZipCodeOption){
 					try {
-						zipCodeMatchResult= newObj.getDealerObjListByDistance(Integer.parseInt(zipCodeText.getText()),30);
+						String text = (String)c1.getSelectedItem();
+						int value = Integer.parseInt(text);
+						zipCodeMatchResult= newObj.getDealerObjListByDistance(Integer.parseInt(zipCodeText.getText()),value);
 						ListOfDealerUI listDealerDisplay= new ListOfDealerUI(zipCodeMatchResult);
 					} catch (NumberFormatException | IOException e) {
 						// TODO Auto-generated catch block

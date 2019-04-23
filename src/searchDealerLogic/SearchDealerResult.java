@@ -108,11 +108,5 @@ public class SearchDealerResult {
                 return 0;
             }
         }
-
-
     }
-
-
-
-
 }

@@ -1,5 +1,4 @@
-
-package DB;
+package database;
 import dto.Dealer;
 import dto.Inventory;
 import dto.Vehicle;
@@ -57,7 +56,7 @@ public class DatabaseConnection {
                 vehicle.setModel(rs.getString("Model"));
                 vehicle.setType(rs.getString("Type"));
                 vehicle.setSeatCount(rs.getInt("SeatCount"));
-                vehicle.setMilaege(rs.getInt("Mileage"));
+                vehicle.setMileage(rs.getInt("Mileage"));
                 vehicle.setPrice(rs.getString("Price"));
                 vehicle.setZipCode(rs.getInt("ZipCode"));
             }
@@ -217,7 +216,6 @@ public class DatabaseConnection {
         }
     }
 
-
     public void retrieveVehicleImage(String vehicleId)
     {
         try
@@ -242,10 +240,6 @@ public class DatabaseConnection {
         {
             ex.printStackTrace();
         }
-
-
-
     }
-
-
 }
+
