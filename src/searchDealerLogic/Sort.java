@@ -12,7 +12,7 @@ public class Sort{
     public Inventory SortBySelection(SortType sortType, Inventory inventory){
         ArrayList<Vehicle> vehicles = inventory.getVehicles();
         Inventory output = new Inventory();
-        
+
         switch (sortType){
             case YEAR_ASC:
                 Collections.sort(vehicles,new SortByYearAsc());break;
@@ -30,12 +30,12 @@ public class Sort{
         output.setVehicles(vehicles);
         return output;
     }
-    
-    //Sort by Year Ascending 
+
+    //Sort by Year Ascending
     class SortByYearAsc implements Comparator<Vehicle> {
         @Override
         public int compare(Vehicle v1, Vehicle v2) {
-            int i = Integer.valueOf(v1.getYear()).compareTo(Integer.valueOf(v2.getYear())); 
+            int i = Integer.valueOf(v1.getYear()).compareTo(Integer.valueOf(v2.getYear()));
             if (i > 0){
                 return 1;
             }
@@ -50,7 +50,7 @@ public class Sort{
     class SortByYearDes implements Comparator<Vehicle> {
         @Override
         public int compare(Vehicle v1, Vehicle v2) {
-            int i = Integer.valueOf(v1.getYear()).compareTo(Integer.valueOf(v2.getYear())); 
+            int i = Integer.valueOf(v1.getYear()).compareTo(Integer.valueOf(v2.getYear()));
             if (i < 0){
                 return 1;
             }
@@ -65,7 +65,7 @@ public class Sort{
     class SortByPriceAsc implements Comparator<Vehicle> {
         @Override
         public int compare(Vehicle v1, Vehicle v2) {
-            int i = Double.valueOf(v1.getPrice()).compareTo(Double.valueOf(v2.getDiscountprice())); 
+            int i = Double.valueOf(v1.getPrice()).compareTo(Double.valueOf(v2.getDiscountprice()));
             if (i > 0){
                 return 1;
             }
@@ -80,7 +80,7 @@ public class Sort{
     class SortByPriceDes implements Comparator<Vehicle> {
         @Override
         public int compare(Vehicle v1, Vehicle v2) {
-            int i = Double.valueOf(v1.getPrice()).compareTo(Double.valueOf(v2.getDiscountprice())); 
+            int i = Double.valueOf(v1.getPrice()).compareTo(Double.valueOf(v2.getDiscountprice()));
             if (i < 0){
                 return 1;
             }
@@ -95,7 +95,7 @@ public class Sort{
     class SortByMileageAsc implements Comparator<Vehicle> {
         @Override
         public int compare(Vehicle v1, Vehicle v2) {
-            int i = Integer.valueOf(v1.getMileage()).compareTo(Integer.valueOf(v2.getMileage())); 
+            int i = Integer.valueOf(v1.getMileage()).compareTo(Integer.valueOf(v2.getMileage()));
             if (i > 0){
                 return 1;
             }
@@ -110,7 +110,7 @@ public class Sort{
     class SortByMileageDes implements Comparator<Vehicle> {
         @Override
         public int compare(Vehicle v1, Vehicle v2) {
-            int i = Integer.valueOf(v1.getMileage()).compareTo(Integer.valueOf(v2.getMileage())); 
+            int i = Integer.valueOf(v1.getMileage()).compareTo(Integer.valueOf(v2.getMileage()));
             if (i < 0){
                 return 1;
             }

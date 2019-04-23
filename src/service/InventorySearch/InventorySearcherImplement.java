@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dto.Vehicle;
-import UI.*;
 
 public class InventorySearcherImplement implements InventorySearcher{
 	// input attributes undecided; 1: ArrayList<Vehicle> 2: Inventory object; depends on io team;

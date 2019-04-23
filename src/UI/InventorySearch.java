@@ -94,7 +94,6 @@ public class InventorySearch extends InventorySearchBuild{
         JBSearch = new JButton("Search");
     }
 
-
     private void defineWestPanelComponents() throws FileNotFoundException {
         YearSetItems getYearSetItems = new YearSetItems();
         yearSetItems = getYearSetItems.getYearItems(this.vehiclesCollection, "","");
@@ -162,7 +161,6 @@ public class InventorySearch extends InventorySearchBuild{
         JCBType = new JComboBox(typeSetItems.toArray());
         JCBSeatCount = new JComboBox(seatCountItems.toArray());
     }
-
 
     private void buildWestPanel() {
         westLayout = new BoxLayout(westPanel, BoxLayout.Y_AXIS);
@@ -456,7 +454,6 @@ public class InventorySearch extends InventorySearchBuild{
             InventorySearch is = new InventorySearch("D10");
             //is.setVisible(true);
     }
-
 }
 
 //This class is to show results in centerPanel

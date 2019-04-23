@@ -26,15 +26,17 @@ public class InventorySearchBuild extends JFrame {
     protected GridBagConstraints centerConstraints;
     protected ArrayList<JComboBox> JCBList;
     protected List<ResultPanel> resultPanelList;
+
     protected List<Vehicle> tempVehicles = new ArrayList<>();
 
     protected JLabel labelCategory, labelEmpty, labelYear, labelTo, labelTo2,
                      labelMileage, labelOrLess, labelPrice, labelLocation, labelZipcode,
                      labelMake, labelModel, labelType, labelSeatCount, labelSortBy, labelNorthTitle;
+
     protected JCheckBox bottonNew, bottonUsed;
     protected JComboBox JCBYear1, JCBYear2, JCBMileage1, JCBPrice1, JCBPrice2, JCBMake, JCBModel, JCBType, JCBSeatCount, JCBSortBy;
     protected JTextField JTFZipcode;
-    
+
     protected JButton JBBack, JBPreviousPage, JBNextPage, JBSearch;
     
     protected TreeSet<String> modelSetItems = new TreeSet<>();
@@ -53,7 +55,7 @@ public class InventorySearchBuild extends JFrame {
     	this.setSize(2000, 1000);
 		this.setTitle("Search Results");
     	//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	
+
     	BorderLayout mainLayout = new BorderLayout();
         getContentPane().setLayout(mainLayout);
         westPanel = new JPanel();
@@ -63,7 +65,7 @@ public class InventorySearchBuild extends JFrame {
         southPanel = new JPanel();
         northPanel = new JPanel();
 
-        
+
     }
 
 }
