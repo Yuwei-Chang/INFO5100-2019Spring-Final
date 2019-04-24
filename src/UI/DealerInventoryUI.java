@@ -319,7 +319,7 @@ class SearchFrame extends JFrame {
         
         
         /*
-         * need a parameter(String vehicleId) for ModifyCarUI's constructer.
+           need a parameter(String vehicleId) for ModifyCarUI's constructer.
            We can create an attribute in SearchFrame, to store the vehicleId which user click on,
            Once they click on another vehicle, reset the attribute,
            when they click on ModifyButton, pass it to this method as an attribute

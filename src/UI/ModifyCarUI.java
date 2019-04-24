@@ -27,6 +27,7 @@ public class ModifyCarUI extends JFrame {
         myVehicle = new DatabaseConnection().getVehicle(vehicleId); //get all the information of the modifyCar
 //    	myVehicle = new Vehicle();      //just for test
 //    	myVehicle.setPrice("889");		//just for test
+        
         this.vehicleId = vehicleId;
         createComponents();
         addComponents();
