@@ -10,8 +10,8 @@ import java.util.Properties;
 
 public class AddCarUI extends JFrame {
     private JPanel top, main, bottom;
-    private JLabel VehicleIdLabel, ModelLabel, MakeLabel, TypeLabel, SeatCountLabel, MileageLabel, PriceLabel, YearLabel, CategoryLabel;
-    private JTextField VehicleIdText, ModelText,MakeText, TypeText, SeatCountText, MileageText, PriceText, YearText, CategoryText;
+    private JLabel vehicleIdLabel, modelLabel, makeLabel, typeLabel, seatCountLabel, mileageLabel, priceLabel, yearLabel, categoryLabel;
+    private JTextField vehicleIdText, modelText,makeText, typeText, seatCountText, mileageText, priceText, yearText, categoryText;
     private JButton submitButton;
 
     public AddCarUI() {
@@ -33,32 +33,32 @@ public class AddCarUI extends JFrame {
         bottom.setLocation(350, 340);
 
         //Brand
-        VehicleIdLabel = new JLabel("VehicleID:");
-        VehicleIdText = new JTextField();
+        vehicleIdLabel = new JLabel("VehicleID:");
+        vehicleIdText = new JTextField();
         //Model
-        ModelLabel = new JLabel("Model:");
-        ModelText = new JTextField();
+        modelLabel = new JLabel("Model:");
+        modelText = new JTextField();
         //Make
-        MakeLabel = new JLabel("Make:");
-        MakeText = new JTextField();
+        makeLabel = new JLabel("Make:");
+        makeText = new JTextField();
         //Type
-        TypeLabel = new JLabel("Type:");
-        TypeText = new JTextField();
+        typeLabel = new JLabel("Type:");
+        typeText = new JTextField();
         //SeatCount
-        SeatCountLabel = new JLabel("SeatCount:");
-        SeatCountText = new JTextField();
+        seatCountLabel = new JLabel("SeatCount:");
+        seatCountText = new JTextField();
         //Mileage
-        MileageLabel = new JLabel("Mileage:");
-        MileageText = new JTextField();
+        mileageLabel = new JLabel("Mileage:");
+        mileageText = new JTextField();
         //Price
-        PriceLabel = new JLabel("Price:");
-        PriceText = new JTextField();
+        priceLabel = new JLabel("Price:");
+        priceText = new JTextField();
         //Year
-        YearLabel = new JLabel("Year:");
-        YearText = new JTextField();
+        yearLabel = new JLabel("Year:");
+        yearText = new JTextField();
         //Category
-        CategoryLabel = new JLabel("Category:");
-        CategoryText = new JTextField();
+        categoryLabel = new JLabel("Category:");
+        categoryText = new JTextField();
 
         //Submit
         submitButton = new JButton("Add");
@@ -69,24 +69,24 @@ public class AddCarUI extends JFrame {
     void addComponents() {
         Container container = getContentPane();
         container.setLayout(null);
-        top.add(VehicleIdLabel);
-        top.add(VehicleIdText);
-        top.add(ModelLabel);
-        top.add(ModelText);
-        main.add(PriceLabel);
-        main.add(PriceText);
-        main.add(YearLabel);
-        main.add(YearText);
-        bottom.add(CategoryLabel);
-        bottom.add(CategoryText);
-        bottom.add(SeatCountLabel);
-        bottom.add(SeatCountText);
-        bottom.add(MakeLabel);
-        bottom.add(MakeText);
-        bottom.add(MileageLabel);
-        bottom.add(MileageText);
-        bottom.add(TypeLabel);
-        bottom.add(TypeText);
+        top.add(vehicleIdLabel);
+        top.add(vehicleIdText);
+        top.add(modelLabel);
+        top.add(modelText);
+        main.add(priceLabel);
+        main.add(priceText);
+        main.add(yearLabel);
+        main.add(yearText);
+        bottom.add(categoryLabel);
+        bottom.add(categoryText);
+        bottom.add(seatCountLabel);
+        bottom.add(seatCountText);
+        bottom.add(makeLabel);
+        bottom.add(makeText);
+        bottom.add(mileageLabel);
+        bottom.add(mileageText);
+        bottom.add(typeLabel);
+        bottom.add(typeText);
         container.add(top);
         container.add(main);
         container.add(bottom);
@@ -118,14 +118,14 @@ public class AddCarUI extends JFrame {
                     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                     Connection conn = DriverManager.getConnection(URL, prop.getProperty("USER"), prop.getProperty("PASS"));
 
-                    PreparedStatement p = conn.prepareStatement("select * from  dbo.Vehicle WHERE Vehicleid ="+"'"+VehicleIdText.getText()+"'");
+                    PreparedStatement p = conn.prepareStatement("select * from  dbo.Vehicle WHERE Vehicleid ="+"'"+vehicleIdText.getText()+"'");
                     ResultSet r=p.executeQuery();
 
                     if(r.next()==false) {
                         PreparedStatement ps = conn.prepareStatement("Insert into dbo.Vehicle values('"
-                                +VehicleIdText.getText()+"','"+CategoryText.getText()+"','"+YearText.getText()
-                                +"','"+MakeText.getText()+"','"+ModelText.getText()+"','"+TypeText.getText()
-                                +"','"+SeatCountText.getText()+"','"+MileageText.getText()+"','"+PriceText.getText()+"');");
+                                +vehicleIdText.getText()+"','"+categoryText.getText()+"','"+yearText.getText()
+                                +"','"+makeText.getText()+"','"+modelText.getText()+"','"+typeText.getText()
+                                +"','"+seatCountText.getText()+"','"+mileageText.getText()+"','"+priceText.getText()+"');");
                         ps.executeUpdate();
                         JOptionPane.showMessageDialog(null, "Vehicle is Successfully Added");
 
