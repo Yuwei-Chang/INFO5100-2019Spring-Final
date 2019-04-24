@@ -7,16 +7,27 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
+import database.DatabaseConnection;
 
 public class ModifyCarUI extends JFrame {
-    private JPanel top;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel top;
     private JPanel main;
     private JPanel bottom;
-    private JLabel VehicleidLabel, ModelLabel, PriceLabel, YearLabel, CategoryLabel;
+    private JLabel vehicleidLabel, modelLabel, priceLabel, yearLabel, categoryLabel;
     private JButton submitButton;
-    private JTextField VehicleidText, ModelText, PriceText, YearText, CategoryText;
+    private JTextField vehicleidText, modelText, priceText, yearText, categoryText;
+    private Vehicle myVehicle;
+    private String vehicleId;
 
-    public ModifyCarUI() {
+    public ModifyCarUI(String vehicleId) {
+        myVehicle = new DatabaseConnection().getVehicle(vehicleId); //get all the information of the modifyCar
+//    	myVehicle = new Vehicle();      //just for test
+//    	myVehicle.setPrice("889");		//just for test
+        this.vehicleId = vehicleId;
         createComponents();
         addComponents();
         addListeners();
@@ -36,20 +47,25 @@ public class ModifyCarUI extends JFrame {
         bottom.setLocation(350, 340);
 
         //Brand
-        VehicleidLabel = new JLabel("VehicleID:");
-        VehicleidText = new JTextField();
+        vehicleidLabel = new JLabel("VehicleID:");
+        vehicleidText = new JTextField();
+        vehicleidText.setText(myVehicle.getMake());
         //Model
-        ModelLabel = new JLabel("Model:");
-        ModelText = new JTextField();
+        modelLabel = new JLabel("Model:");
+        modelText = new JTextField();
+        modelText.setText(myVehicle.getModel());
         //Price
-        PriceLabel = new JLabel("Price:");
-        PriceText = new JTextField();
+        priceLabel = new JLabel("Price:");
+        priceText = new JTextField();
+        priceText.setText(myVehicle.getPrice());
         //Year
-        YearLabel = new JLabel("Year:");
-        YearText = new JTextField();
+        yearLabel = new JLabel("Year:");
+        yearText = new JTextField();
+        yearText.setText(myVehicle.getYear());
         //Category
-        CategoryLabel = new JLabel("Category:");
-        CategoryText = new JTextField();
+        categoryLabel = new JLabel("Category:");
+        categoryText = new JTextField();
+        categoryText.setText(myVehicle.getCategory());
 
         //Submit
         submitButton = new JButton("Modify");
@@ -62,16 +78,16 @@ public class ModifyCarUI extends JFrame {
     void addComponents() {
         Container container = getContentPane();
         container.setLayout(null);
-        top.add(VehicleidLabel);
-        top.add(VehicleidText);
-        top.add(ModelLabel);
-        top.add(ModelText);
-        main.add(PriceLabel);
-        main.add(PriceText);
-        main.add(YearLabel);
-        main.add(YearText);
-        bottom.add(CategoryLabel);
-        bottom.add(CategoryText);
+        top.add(vehicleidLabel);
+        top.add(vehicleidText);
+        top.add(modelLabel);
+        top.add(modelText);
+        main.add(priceLabel);
+        main.add(priceText);
+        main.add(yearLabel);
+        main.add(yearText);
+        bottom.add(categoryLabel);
+        bottom.add(categoryText);
 
         container.add(top);
         container.add(main);
@@ -105,14 +121,14 @@ public class ModifyCarUI extends JFrame {
                     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                     Connection conn = DriverManager.getConnection(URL, prop.getProperty("USER"), prop.getProperty("PASS"));
 
-                    PreparedStatement p = conn.prepareStatement("select * from  dbo.Vehicle WHERE Vehicleid ='"+VehicleidText.getText()+"'");
+                    PreparedStatement p = conn.prepareStatement("select * from  dbo.Vehicle WHERE Vehicleid ='"+vehicleidText.getText()+"'");
                     ResultSet r=p.executeQuery();
 
                     if(r.next()==true) {
-                        PreparedStatement ps = conn.prepareStatement("select Model,Price, Category, Year from Vehicle where Vehicleid='"+VehicleidText.getText()+"';\n"
-                                +"update dbo.Vehicle set Model='"+ModelText.getText()
-                                +"',Price='"+PriceText.getText()+"',Category='"+CategoryText.getText()
-                                +"',Year='"+YearText.getText()+"' where Vehicleid='"+VehicleidText.getText()+"'");
+                        PreparedStatement ps = conn.prepareStatement("select Model,Price, Category, Year from Vehicle where Vehicleid='"+vehicleidText.getText()+"';\n"
+                                +"update dbo.Vehicle set Model='"+modelText.getText()
+                                +"',Price='"+priceText.getText()+"',Category='"+categoryText.getText()
+                                +"',Year='"+yearText.getText()+"' where Vehicleid='"+vehicleidText.getText()+"'");
 
                         ResultSet rs=ps.executeQuery();
                         JOptionPane.showMessageDialog(null, "Vehicle is Successfully Modified");
@@ -135,3 +151,8 @@ public class ModifyCarUI extends JFrame {
 
     }
 }
+
+
+
+
+
