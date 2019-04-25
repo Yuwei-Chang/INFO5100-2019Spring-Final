@@ -1,4 +1,4 @@
-package finalprojectgroup2test2;
+package UI;
 
 import dto.Vehicle;
 import java.util.ArrayList;
