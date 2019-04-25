@@ -3,6 +3,7 @@ package service.InventorySearch;
 import java.util.ArrayList;
 import java.util.List;
 
+import UI.FilterContent;
 import dto.Vehicle;
 
 public class InventorySearcherImplement implements InventorySearcher{
@@ -85,7 +86,7 @@ public class InventorySearcherImplement implements InventorySearcher{
 					&& this.fitModel(inventory.get(i), filterContent.getModel())
 					&& this.fitMake(inventory.get(i), filterContent.getMake())
 					&& this.fitType(inventory.get(i), filterContent.getType())
-					&& this.fitSeatCount(inventory.get(i), filterContent.getSeatCount())) {
+					&& this.fitSeatCount(inventory.get(i), String.valueOf(filterContent.getSeatCount()))) {
 
 				inventoryResult.add(inventory.get(i));
 			}

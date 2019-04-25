@@ -1,4 +1,4 @@
-package DealerInventory;//Seearch done by Dealer itself on Vehicle inventory
+package UI.DealerInventory;//Seearch done by Dealer itself on Vehicle inventory
 
 import javax.swing.*;
 import java.awt.*;

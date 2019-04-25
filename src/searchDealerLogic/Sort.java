@@ -3,13 +3,14 @@ package searchDelarLogic;
 
 import dto.Inventory;
 import dto.Vehicle;
+import searchDealerLogic.SortLogic;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class Sort{
-    public Inventory SortBySelection(SortType sortType, Inventory inventory){
+    public Inventory SortBySelection(SortLogic.SortType sortType, Inventory inventory){
         ArrayList<Vehicle> vehicles = inventory.getVehicles();
         Inventory output = new Inventory();
 

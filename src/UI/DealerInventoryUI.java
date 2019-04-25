@@ -1,7 +1,7 @@
 package UI;
-import DB.DatabaseConnection;
 import DB.DealerAuth;
 import DB.VehiclesSearchResult;
+import database.DatabaseConnection;
 import dto.Vehicle;
 
 import javax.swing.*;
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class DealerInventoryUI {
     DealerLogin login= new DealerLogin();
@@ -254,7 +254,7 @@ class SearchFrame extends JFrame {
 
 
     //Create right part panel
-    private void CreateRightPanel(ArrayList<Vehicle> vl) {
+    private void CreateRightPanel(List<Vehicle> vl) {
 //        if(rightPanel!=null){
 //            rightPanel=null;
 //            this.repaint();
@@ -319,7 +319,9 @@ class SearchFrame extends JFrame {
 
             modifyButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
-                    new ModifyCarUI();
+                    //Where is vechile id here, which is needed to be passses in the constructor. For now passing testVehicaleId to make code error free
+                    //TODO Add vehicleId to contructor
+                    new ModifyCarUI("TestVehicleId");
                     //dispose();
                 }
             });
@@ -359,7 +361,7 @@ class SearchFrame extends JFrame {
 
                 //System.out.println("category "+ selectedCategory);
 
-                ArrayList<Vehicle> vl = dbobj.getVehicleForMakeMOdelCategory(dealerid,make, model, selectedCategory);
+                List<Vehicle> vl = dbobj.getVehicleForMakeMOdelCategory(dealerid,make, model, selectedCategory);
 
           // ArrayList<Vehicle> vl = dbobj.getVehicleForMakeMOdelCategory("D18", "Audi", "A4" , "New");
 //                Vehicle testvehicle= vl.get(0);

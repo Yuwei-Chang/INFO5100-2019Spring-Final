@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 import database.DatabaseConnection;
+import dto.Vehicle;
 
 public class ModifyCarUI extends JFrame {
     /**
@@ -62,7 +63,7 @@ public class ModifyCarUI extends JFrame {
         //Year
         yearLabel = new JLabel("Year:");
         yearText = new JTextField();
-        yearText.setText(myVehicle.getYear());
+        yearText.setText(String.valueOf(myVehicle.getYear()));
         //Category
         categoryLabel = new JLabel("Category:");
         categoryText = new JTextField();
