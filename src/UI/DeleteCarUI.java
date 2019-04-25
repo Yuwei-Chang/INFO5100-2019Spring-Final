@@ -18,20 +18,22 @@ public class DeleteCarUI extends JFrame{
     JButton OkayButton=new JButton("OK");
     JButton CancelButton=new JButton("Cancel");
     JLabel label=new JLabel("Vehicleid:");
-    JLabel label2 = new JLabel("V41");
-
-    public DeleteCarUI(){
-        CreateAddComponent();
+    JLabel label2;
+    String vid;
+    public DeleteCarUI(String vid){
+        this.vid=vid;
+        CreateAddComponent(vid);
         AddButton();
         SetWindow();
         ButtonListener();
     }
 
-    void CreateAddComponent() {
+    void CreateAddComponent(String vid) {
 
         delcontainer.setLayout(new BorderLayout());
         delcontainer.setBackground(new Color(244, 167, 66));
         delcontainer.add(panel,BorderLayout.CENTER);
+        label2 = new JLabel(vid);
         label.setFont(f);
         label2.setFont(f);
         c.insets= new Insets(10,10,10,10);
@@ -98,11 +100,11 @@ public class DeleteCarUI extends JFrame{
                 String PASS = "";
 
                 try {
-                    InputStream input = new FileInputStream("DB.properties");
+                    InputStream input = new FileInputStream("src/database/connection.properties");
                     Properties prop = new Properties();
                     prop.load(input);
                     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                    Connection conn = DriverManager.getConnection(URL, prop.getProperty("USER"), prop.getProperty("PASS"));
+                    Connection conn = DriverManager.getConnection(URL, prop.getProperty("username"), prop.getProperty("password"));
 
                     PreparedStatement p = conn.prepareStatement("select * from  dbo.Inventory WHERE Vehicleid =" + "'" + label2.getText() + "'");
                     ResultSet r = p.executeQuery();
@@ -136,7 +138,7 @@ public class DeleteCarUI extends JFrame{
 
             public void actionPerformed(ActionEvent c) {
                 DealerLogin dui=new DealerLogin();
-                SearchFrame sf=new SearchFrame(dui.DealerNameText.getText());
+                SearchFrame sf=new SearchFrame(dui.dealerNameText.getText());
                 sf.setVisible(true);
             }
 
