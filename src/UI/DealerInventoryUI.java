@@ -1,7 +1,7 @@
 package UI;
+import DB.DatabaseConnection;
 import DB.DealerAuth;
 import DB.VehiclesSearchResult;
-import database.DatabaseConnection;
 import dto.Vehicle;
 
 import javax.swing.*;
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 
 public class DealerInventoryUI {
     DealerLogin login= new DealerLogin();
@@ -149,9 +149,9 @@ class SearchFrame extends JFrame {
     private JComboBox modelCB,makeCB;
     private String selectedCategory="";
     //Constructor
-    public SearchFrame(){
-
-    }
+//    public SearchFrame(){
+//
+//    }
     public SearchFrame(String DealerName) {
         container.setLayout(null);
         this.dealerName = DealerName;
@@ -239,14 +239,11 @@ class SearchFrame extends JFrame {
         ButtonGroup group = new ButtonGroup();
         group.add(New); group.add(used); group.add(all);
 
-
-
         SelectPanel.add(Box.createHorizontalStrut(117)); SelectPanel.add(New);
         SelectPanel.add(Box.createHorizontalStrut(117)); SelectPanel.add(used);
         SelectPanel.add(Box.createHorizontalStrut(117)); SelectPanel.add(all);
         SelectPanel.setBounds(0, 560, 640, 60);
         leftPanel.add(SelectPanel);
-
         leftPanel.setBounds(0, 0, 640, 900);
         leftPanel.setOpaque(false);
         container.add(leftPanel);
@@ -254,7 +251,7 @@ class SearchFrame extends JFrame {
 
 
     //Create right part panel
-    private void CreateRightPanel(List<Vehicle> vl) {
+    private void CreateRightPanel(ArrayList<Vehicle> vl) {
 //        if(rightPanel!=null){
 //            rightPanel=null;
 //            this.repaint();
@@ -264,23 +261,23 @@ class SearchFrame extends JFrame {
         rightPanel.setLayout(null);
 
         if(vl.size()>0) {
-            JPanel TopList = new JPanel(null);
-            TopList.setOpaque(false);
-            JPanel List = new JPanel(null);
-            List.setLayout(new BoxLayout(List, BoxLayout.Y_AXIS));
-            ButtonGroup ListGroup = new ButtonGroup();
+            JPanel topList = new JPanel(null);
+            topList.setOpaque(false);
+            JPanel list = new JPanel(null);
+            list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
+            ArrayList<JRadioButton> rbList = new ArrayList<JRadioButton>();
             for (Vehicle v : vl) {
                 ListPanel resultPanel = new ListPanel(v);
-                ListGroup.add(resultPanel.select);
-                List.add(resultPanel);
+                rbList.add(resultPanel.select);
+                list.add(resultPanel);
             }
-            List.setFont(new Font("Courier New", Font.BOLD, 24));
-            JScrollPane ListPane = new JScrollPane(List);
-            ListPane.setBounds(50, 20, 800, 600);
-            TopList.add(ListPane);
+            list.setFont(new Font("Courier New", Font.BOLD, 24));
+            JScrollPane listPane = new JScrollPane(list);
+            listPane.setBounds(50, 20, 800, 600);
+            topList.add(listPane);
 
-            JPanel Buttons = new JPanel(new GridLayout(1, 3, 100, 20));
-            Buttons.setOpaque(false);
+            JPanel buttons = new JPanel(new GridLayout(1, 3, 100, 20));
+            buttons.setOpaque(false);
             addButton = new JButton("Add");
             addButton.setFont(new Font("Arial", Font.PLAIN, 16));
             modifyButton = new JButton("Modify");
@@ -290,20 +287,27 @@ class SearchFrame extends JFrame {
             addButton.setFocusPainted(false);
             modifyButton.setFocusPainted(false);
             deleteButton.setFocusPainted(false);
-            Buttons.add(addButton);
-            Buttons.add(modifyButton);
-            Buttons.add(deleteButton);
+            buttons.add(addButton);
+            buttons.add(modifyButton);
+            buttons.add(deleteButton);
 
-            TopList.setBounds(30, 60, 900, 640);
-            Buttons.setBounds(200, 720, 560, 50);
+            topList.setBounds(30, 60, 900, 640);
+            buttons.setBounds(200, 720, 560, 50);
 
-            rightPanel.add(TopList);
-            rightPanel.add(Buttons);
+            rightPanel.add(topList);
+            rightPanel.add(buttons);
 
 
             deleteButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
-                    new DeleteCarUI();
+                  //  new DeleteCarUI();
+
+                    for(JRadioButton jrb: rbList){
+                        if(jrb.isSelected()) {
+                            new DeleteCarUI(jrb.getText());
+                            break;
+                        }
+                    }
                     //dispose();
                 }
 
@@ -319,9 +323,13 @@ class SearchFrame extends JFrame {
 
             modifyButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
-                    //Where is vechile id here, which is needed to be passses in the constructor. For now passing testVehicaleId to make code error free
-                    //TODO Add vehicleId to contructor
-                    new ModifyCarUI("TestVehicleId");
+                    for(JRadioButton jrb: rbList){
+                        if(jrb.isSelected()) {
+                            new ModifyCarUI(jrb.getText());
+                            break;
+                        }
+                    }
+
                     //dispose();
                 }
             });
@@ -361,7 +369,7 @@ class SearchFrame extends JFrame {
 
                 //System.out.println("category "+ selectedCategory);
 
-                List<Vehicle> vl = dbobj.getVehicleForMakeMOdelCategory(dealerid,make, model, selectedCategory);
+                ArrayList<Vehicle> vl = dbobj.getVehicleForMakeMOdelCategory(dealerid,make, model, selectedCategory);
 
           // ArrayList<Vehicle> vl = dbobj.getVehicleForMakeMOdelCategory("D18", "Audi", "A4" , "New");
 //                Vehicle testvehicle= vl.get(0);
@@ -398,7 +406,7 @@ class SearchFrame extends JFrame {
 }
 
 class ListPanel extends JPanel{
-    JLabel resultVehicleID, resultPrice, resultLocation, resultMake, resultYear, resultMileage, resultCondition;
+    JLabel resultPrice, resultLocation, resultMake, resultYear, resultMileage, resultCondition;
     JRadioButton select;
 
     public ListPanel() {
@@ -415,7 +423,7 @@ class ListPanel extends JPanel{
     private void createComponents(){
         select = new JRadioButton();
         select.setOpaque(false);
-        resultVehicleID = new JLabel("VehicleId: ");
+//        resultVehicleID = new JLabel("VehicleId: ");
         resultCondition = new JLabel("Condition: ");
         resultLocation = new JLabel("Location: ");
         resultMake = new JLabel("Make: ");
@@ -423,7 +431,7 @@ class ListPanel extends JPanel{
         resultYear = new JLabel("Year: ");
         resultPrice = new JLabel("Price: ");
         select.setPreferredSize(new Dimension(50, 50));
-        resultVehicleID.setPreferredSize(new Dimension(100,50));
+//        resultVehicleID.setPreferredSize(new Dimension(100,50));
         resultPrice.setPreferredSize(new Dimension(100,50));
         resultLocation.setPreferredSize(new Dimension(150,50));
         resultMileage.setPreferredSize(new Dimension(150,50));
@@ -432,9 +440,9 @@ class ListPanel extends JPanel{
         resultMake.setPreferredSize(new Dimension(100,50));
     }
     private void createComponents(Vehicle v){
-        select = new JRadioButton();
+        select = new JRadioButton(v.getVehicleId());
         select.setOpaque(false);
-        resultVehicleID = new JLabel(v.getVehicleId());
+//        resultVehicleID = new JLabel(v.getVehicleId());
         resultCondition = new JLabel(v.getType());
         resultLocation = new JLabel(v.getCategory());
         resultMake = new JLabel(v.getMake());
@@ -442,7 +450,7 @@ class ListPanel extends JPanel{
         resultYear = new JLabel(Integer.toString(v.getYear()));
         resultPrice = new JLabel(v.getPrice());
         select.setPreferredSize(new Dimension(50, 50));
-        resultVehicleID.setPreferredSize(new Dimension(100,50));
+//        resultVehicleID.setPreferredSize(new Dimension(100,50));
         resultPrice.setPreferredSize(new Dimension(100,50));
         resultLocation.setPreferredSize(new Dimension(150,50));
         resultMileage.setPreferredSize(new Dimension(150,50));
@@ -452,7 +460,7 @@ class ListPanel extends JPanel{
     }
     private void addComponents(){
         add(select);
-        add(resultVehicleID);
+//        add(resultVehicleID);
         add(resultPrice);
         add(resultCondition);
         add(resultMake);
