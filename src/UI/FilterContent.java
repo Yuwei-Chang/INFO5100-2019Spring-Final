@@ -1,6 +1,8 @@
 package UI;
 
 
+//import static UI.InventorySearchBuild.*;
+
 import static UI.InventorySearchBuild.*;
 
 public class FilterContent {

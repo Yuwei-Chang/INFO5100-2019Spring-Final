@@ -311,7 +311,7 @@ class SearchFrame extends JFrame {
 
             addButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
-                    new AddCarUI();
+                    //new AddCarUI();
                     //dispose();
                 }
 

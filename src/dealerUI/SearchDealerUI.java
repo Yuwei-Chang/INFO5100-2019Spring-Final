@@ -40,16 +40,14 @@ public class SearchDealerUI extends JFrame{
 	}
 	
 	private void createComponents() {
-		//nameLabel = new JLabel("Dealer Name", JLabel.RIGHT);
 		distanceRange = new JLabel("Distance Range", JLabel.LEFT);
 		nameText = new JTextField(10);
 		//nameText.setLocation(10,10);
-		//distanceRangeText = new JTextField();
 		c1 = new JComboBox(s1);
 		zipCodeText = new JTextField(10);
 		search = new JButton("Search");
-		radioButtonName= new JRadioButton("Dealers Name");
-		radioButtonZipCode= new JRadioButton("ZipCode");
+		radioButtonName= new JRadioButton("Select this option to enter Dealers Name");
+		radioButtonZipCode= new JRadioButton("Select this option to search Dealers near you. Enter your Zipcode");
 		myButtonGroup = new ButtonGroup();
 		dealerInventory = new JButton("DealerInventory");
 		
@@ -64,8 +62,6 @@ public class SearchDealerUI extends JFrame{
 	    border.setTitleJustification(TitledBorder.CENTER);
 	    border.setTitlePosition(TitledBorder.TOP);
 	    jpanel.setBorder(border);
-		//jpanel.add(nameLabel);
-		//jpanel.add(zipCodeLabel);
 		jpanel.add(radioButtonName);
 		jpanel.add(nameText);
 		jpanel.add(radioButtonZipCode);
@@ -75,19 +71,14 @@ public class SearchDealerUI extends JFrame{
 		jpanel.add(search);
 		jpanel.add(dealerInventory);
 		con.add(jpanel, "Center");
-		
+
 		myButtonGroup.add(radioButtonName);
 		myButtonGroup.add(radioButtonZipCode);
 
 
 
 	}
-	
-	public JPanel createNewPanel() {
-        JPanel dealerJPanel = new JPanel();
-        dealerJPanel.setLayout(new FlowLayout());
-        return dealerJPanel;
-    }
+
 	public void addListeners() {
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -138,7 +129,7 @@ public class SearchDealerUI extends JFrame{
 	
 	
 	private void makeItVisible() {
-		this.setSize(500, 300);
+		this.setSize(1000, 400);
 		this.setVisible(true);
 		//this.pack();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

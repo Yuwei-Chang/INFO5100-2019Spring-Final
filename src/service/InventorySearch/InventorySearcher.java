@@ -1,6 +1,8 @@
 package service.InventorySearch;
 
-import UI.*;
+
+
+import UI.FilterContent;
 import dto.Vehicle;
 import java.util.ArrayList;
 import java.util.List;

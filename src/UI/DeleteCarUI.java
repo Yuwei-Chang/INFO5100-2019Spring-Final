@@ -136,7 +136,7 @@ public class DeleteCarUI extends JFrame{
 
             public void actionPerformed(ActionEvent c) {
                 DealerLogin dui=new DealerLogin();
-                SearchFrame sf=new SearchFrame(dui.DealerNameText.getText());
+                SearchFrame sf=new SearchFrame(dui.dealerNameText.getText());
                 sf.setVisible(true);
             }
 
