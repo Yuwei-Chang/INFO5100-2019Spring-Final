@@ -218,7 +218,7 @@ public class DatabaseConnection {
     }
 
 
-    public void retriveVehicleImage(String vehicleId)
+    public void retrieveVehicleImage(String vehicleId)
     {
         try
         {
