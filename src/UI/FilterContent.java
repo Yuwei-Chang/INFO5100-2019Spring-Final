@@ -1,7 +1,7 @@
-package finalprojectgroup2test2;
+package UI;
 
 
-import static finalprojectgroup2test2.InventorySearchBuild.*;
+import static UI.InventorySearchBuild.*;
 
 public class FilterContent {
 	private String category;
@@ -16,7 +16,7 @@ public class FilterContent {
 	private String lowPrice; 
 	private int highYear;
 	private int lowYear;
-	boolean needsNew, needsUsed;
+	public boolean needsNew, needsUsed;
 	boolean yearValidate = false, priceValidate = false;
 	public FilterContent() {
 			this.lowPrice = "";

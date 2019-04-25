@@ -1,4 +1,4 @@
-package finalprojectgroup2test2;
+package UI;
 
 import java.util.ArrayList;
 

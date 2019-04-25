@@ -1,16 +1,12 @@
-package finalprojectgroup2test2;
+package UI;
 
-import com.sun.source.tree.Tree;
 import dto.Vehicle;
-
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -30,7 +26,7 @@ public class InventorySearchBuild extends JFrame {
     protected GridBagConstraints centerConstraints;
     protected ArrayList<JComboBox> JCBList;
     protected List<ResultPanel> resultPanelList;
-    protected ArrayList<Vehicle> tempVehicles = new ArrayList<>();
+    protected List<Vehicle> tempVehicles = new ArrayList<>();
 
     protected JLabel labelCategory, labelEmpty, labelYear, labelTo, labelTo2,
                      labelMileage, labelOrLess, labelPrice, labelLocation, labelZipcode,

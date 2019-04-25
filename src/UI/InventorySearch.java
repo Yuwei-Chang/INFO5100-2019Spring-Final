@@ -1,4 +1,4 @@
-package finalprojectgroup2test2;
+package UI;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,16 +8,16 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import database.DatabaseConnection;
+import database.*;
 import dto.*;
 import javax.swing.*;
-
-
+import service.InventorySearch.*;
+import java.util.List;
 
 public class InventorySearch extends InventorySearchBuild{
     private String dealerID;
     private Inventory inventory;
-    private ArrayList<Vehicle> vehiclesCollection;
+    private List vehiclesCollection = new ArrayList<Vehicle>();
 
     private InventorySearch(String dealerID) throws FileNotFoundException {
         super();
@@ -40,10 +40,10 @@ public class InventorySearch extends InventorySearchBuild{
 
     private void inventoryConnection() {
 //
-        Inventory i = new Inventory("D10");
-        i.setVehicles(new DatabaseConnection().getVehiclesForDealer(this.dealerID));
-
-        this.inventory = i;
+//        Inventory i = new Inventory("D10");
+//        i.setVehicles(new DatabaseConnection().getVehiclesForDealer(this.dealerID));
+//
+//        this.inventory = i;
         this.vehiclesCollection = new DatabaseConnection().getVehiclesForDealer(this.dealerID);
         this.tempVehicles = this.vehiclesCollection;
     }
@@ -103,19 +103,19 @@ public class InventorySearch extends InventorySearchBuild{
         Scanner scanner;
 
 
-        File mileageFile = new File("MileageItems.txt");
+        File mileageFile = new File("src/UI/MileageItems.txt");
         scanner = new Scanner(mileageFile);
         while(scanner.hasNextLine()){
             mileageSetItems.add((int)Double.parseDouble(scanner.nextLine()));
         }
 
-        File minPriceFile = new File("MinPriceItems.txt");
+        File minPriceFile = new File("src/UI/MinPriceItems.txt");
         scanner = new Scanner(minPriceFile);
         while(scanner.hasNextLine()){
             minPriceFilterResults.add(scanner.nextLine());
         }
 
-        File maxPriceFile = new File("MaxPriceItems.txt");
+        File maxPriceFile = new File("src/UI/MaxPriceItems.txt");
         scanner = new Scanner(maxPriceFile);
         while(scanner.hasNextLine()){
             maxPriceFilterResults.add(scanner.nextLine());
@@ -127,22 +127,22 @@ public class InventorySearch extends InventorySearchBuild{
             makeSetItems.add(scanner.nextLine());
         }*/
 
-        File typeFile = new File("TypeItems.txt");
+        File typeFile = new File("src/UI/TypeItems.txt");
         scanner = new Scanner(typeFile);
         while(scanner.hasNextLine()){
             typeSetItems.add(scanner.nextLine());
         }
 
-        File seatFile = new File("SeatFile.txt");
+        File seatFile = new File("src/UI/SeatFile.txt");
         scanner = new Scanner(seatFile);
         while(scanner.hasNextLine()){
             seatCountItems.add(scanner.nextLine());
         }
 
 
-        for (int i=0; i<inventory.getVehicles().size(); i++) {
-            if(!makeSetItems.contains(inventory.getVehicle(i).getMake())){
-                makeSetItems.add(inventory.getVehicle(i).getMake());
+        for (int i=0; i<vehiclesCollection.size(); i++) {
+            if(!makeSetItems.contains(((Vehicle)vehiclesCollection.get(i)).getMake())){
+                makeSetItems.add(((Vehicle)vehiclesCollection.get(i)).getMake());
             }
         }
         makeSetItems.add("--Please choose a preferred make");
@@ -343,8 +343,9 @@ public class InventorySearch extends InventorySearchBuild{
         JCBSortBy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Vehicle> sortedinventory = new ArrayList<>();
+                List<Vehicle> sortedinventory = new ArrayList<>();
                 vehicleServices vs = new vehicleServices();
+
                 if (JCBSortBy.getSelectedItem().equals("Price: Lowest")) {
                     //TODO: need to use backend vehicleService package to get vehicleServiceSort Imp and SortType
                     sortedinventory = vs.Sort(1, tempVehicles);
@@ -355,13 +356,12 @@ public class InventorySearch extends InventorySearchBuild{
                 } else if (JCBSortBy.getSelectedItem().equals("Year: Oldest")) {
                     sortedinventory = vs.Sort(4, tempVehicles);
                 } else if (JCBSortBy.getSelectedItem().equals("Mileage: Lowest")) {
-                    sortedinventory = vs.Sort(5, tempVehicles);
+                	sortedinventory = vs.Sort(5, tempVehicles);
                 } else if (JCBSortBy.getSelectedItem().equals("Mileage: Highest")) {
                     sortedinventory = vs.Sort(6, tempVehicles);
-                } /*else if (JCBSortBy.getSelectedItem().equals("Distance: Nearest(Default)")) {
-                    sortedinventory = vehicleService.Sort(SortType.DISTANCE_ASC, inventory);
+                } else if (JCBSortBy.getSelectedItem().equals("Distance: Nearest(Default)")) {
+                    sortedinventory = tempVehicles;
                 }
-*/
                 showResults(sortedinventory);
             }
         });
@@ -392,8 +392,8 @@ public class InventorySearch extends InventorySearchBuild{
                     }
                 }
                 for (int i = 0; i < vehiclesCollection.size(); i++) {
-                    if (vehiclesCollection.get(i).getMake().equals(JCBMake.getSelectedItem())) {
-                        JCBModel.addItem(vehiclesCollection.get(i).getModel());
+                    if (((Vehicle)vehiclesCollection.get(i)).getMake().equals(JCBMake.getSelectedItem())) {
+                        JCBModel.addItem(((Vehicle)vehiclesCollection.get(i)).getModel());
                     }
                 }
                 JBSearch.doClick();
@@ -406,6 +406,7 @@ public class InventorySearch extends InventorySearchBuild{
                 JBSearch.doClick();
             }
         });
+
     }
 
 
@@ -413,7 +414,6 @@ public class InventorySearch extends InventorySearchBuild{
         this.centerPanel.setBorder(BorderFactory.createTitledBorder("Results"));
         //centerPanel.setPreferredSize(new Dimension(getWidth(),764));
         this.centerPanel.setLayout(new BoxLayout(this.centerPanel, BoxLayout.Y_AXIS));
-
         this.centerPanelOut = new JPanel();
         this.centerPanelOut.setLayout(new BorderLayout());
         this.centerPanelOut.add(this.centerPanel, BorderLayout.NORTH);
@@ -423,15 +423,19 @@ public class InventorySearch extends InventorySearchBuild{
     }
 
     //Show results in centerPanel
-    private void showResults(ArrayList<Vehicle> vehiclesCollection){
+    private void showResults(List<Vehicle> vehiclesCollection){
         this.centerPanel.removeAll();
         for(int i=0; i<vehiclesCollection.size(); i++){
-            ResultPanel resultPanel = new ResultPanel(vehiclesCollection.get(i).getVehicleId() + ".jpeg");
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            databaseConnection.retrieveVehicleImage(vehiclesCollection.get(i).getVehicleId());
+            ResultPanel resultPanel = new ResultPanel("src/database/CarImage/" + vehiclesCollection.get(i).getVehicleId() + ".JPG");
             resultPanel.resultYear.setText(resultPanel.resultYear.getText() + vehiclesCollection.get(i).getYear());
             resultPanel.resultMileage.setText(resultPanel.resultMileage.getText() + vehiclesCollection.get(i).getMileage());
             resultPanel.resultMake.setText(resultPanel.resultMake.getText() + vehiclesCollection.get(i).getMake());
             resultPanel.resultPrice.setText(resultPanel.resultPrice.getText() + vehiclesCollection.get(i).getPrice());
             resultPanel.vehicleID.setText(vehiclesCollection.get(i).getVehicleId());
+            resultPanel.resultCondition.setText(resultPanel.resultCondition.getText() + vehiclesCollection.get(i).getCategory());
+            resultPanel.vehicle = vehiclesCollection.get(i);
             this.centerPanel.add(resultPanel);
         }
         this.centerPanel.revalidate();
@@ -448,15 +452,15 @@ public class InventorySearch extends InventorySearchBuild{
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        InventorySearch is = new InventorySearch("D10");
-        is.setVisible(true);
+            InventorySearch is = new InventorySearch("D10");
+            is.setVisible(true);
     }
 
 }
 
 //This class is to show results in centerPanel
 class ResultPanel extends JPanel{
-
+    public Vehicle vehicle;
     private ImageIcon imageIcon;
     private Image image;
     JLabel resultPrice, resultLocation, resultMake, resultYear, resultMileage, resultCondition, vehicleID;
@@ -472,7 +476,7 @@ class ResultPanel extends JPanel{
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.imageIcon = new ImageIcon(imagePath);
         this.image = this.imageIcon.getImage();
-        Image newImage = this.image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        Image newImage = this.image.getScaledInstance(140, 100, Image.SCALE_SMOOTH);
         this.imageIcon = new ImageIcon(newImage);
         JLabel jLabel = new JLabel(this.imageIcon);
         this.add(jLabel);
@@ -487,7 +491,7 @@ class ResultPanel extends JPanel{
 
     private void createComponents(){
         this.setBorder(BorderFactory.createTitledBorder(""));
-        this.checkButton = new JButton("Check Availability");
+        this.checkButton = new JButton("More Detail");
         this.resultCondition = new JLabel("Condition: ");
         this.resultLocation = new JLabel("Location: ");
         this.resultMake = new JLabel("Make: ");
@@ -510,7 +514,7 @@ class ResultPanel extends JPanel{
         this.add(this.resultMake);
         this.add(this.resultYear);
         this.add(this.resultMileage);
-        this.add(this.resultLocation);
+//        this.add(this.resultLocation);
         this.add(this.checkButton);
     }
 
@@ -519,7 +523,7 @@ class ResultPanel extends JPanel{
     }
 
     private void addListeners(){
-        this.checkButton.addActionListener((e -> {DetailTest detailTest = new DetailTest(this);}));
+        this.checkButton.addActionListener((e -> {CarDetailUI carDetailUI = new CarDetailUI(this.vehicle);}));
     }
 }
 
@@ -551,7 +555,7 @@ class DetailTest extends JFrame{
 
 //This class is for temporarily sorting
 class vehicleServices{
-	static ArrayList<Vehicle> Sort(int sortMode, ArrayList<Vehicle> vehicles){
+	static List<Vehicle> Sort(int sortMode, List<Vehicle> vehicles){
 		if(sortMode == 1){
 			for(int i = 0; i<vehicles.size()-1; i++){
 				for(int j = i+1; j<vehicles.size(); j++){
@@ -595,8 +599,8 @@ class vehicleServices{
 		else if(sortMode == 5){
 			for(int i = 0; i<vehicles.size()-1; i++){
 				for(int j = i+1; j<vehicles.size(); j++){
-					if(Double.valueOf(vehicles.get(i).getMileage().replace(",",""))>Double.valueOf
-							(vehicles.get(j).getMileage().replace(",",""))){
+					if(vehicles.get(i).getMileage()>
+							vehicles.get(j).getMileage()){
 						Collections.swap(vehicles,i,j);
 					}
 				}
@@ -605,14 +609,12 @@ class vehicleServices{
 		else if(sortMode == 6){
 			for(int i = 0; i<vehicles.size()-1; i++){
 				for(int j = i+1; j<vehicles.size(); j++){
-					if(Double.valueOf(vehicles.get(i).getMileage().replace(",",""))<Double.valueOf
-							(vehicles.get(j).getMileage().replace(",",""))){
+					if(vehicles.get(i).getMileage()<vehicles.get(j).getMileage()){
 						Collections.swap(vehicles,i,j);
 					}
 				}
 			}
 		}
-
 
 		return vehicles;
 	}
