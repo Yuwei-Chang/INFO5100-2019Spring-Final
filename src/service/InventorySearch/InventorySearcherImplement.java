@@ -1,92 +1,70 @@
-package InventorySearcher;
+package service.InventorySearch;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import dto.Vehicle;
+import UI.*;
 
 public class InventorySearcherImplement implements InventorySearcher{
+	// input attributes undecided; 1: ArrayList<Vehicle> 2: Inventory object; depends on io team;
+	// Arraylist vehicle for now.
 
-	public  ArrayList<Vehicle> search_inventory(ArrayList<Vehicle> inventory,
-													  String _new,
-													  String _used,
-													  String min_year,
-													  String max_year,
-													  String max_mileage,
-													  String min_price,
-													  String max_price,
-													  String model,
-													  String make,
-													  String type,
-													  String seat_count) {
-
-		ArrayList<Vehicle> inventory_result = new ArrayList<>();
-
-		for (int i = 0; i < inventory.size(); i++) {
-			if (this.fit_category(inventory.get(i), _new, _used)
-					&& this.fit_year(inventory.get(i), min_year, max_year)
-					&& this.fit_mileage(inventory.get(i), max_mileage)
-					&& this.fit_price(inventory.get(i), min_price, max_price)
-					&& this.fit_model(inventory.get(i), model)
-					&& this.fit_make(inventory.get(i), make)
-					&& this.fit_type(inventory.get(i), type)
-					&& this.fit_seat_count(inventory.get(i), seat_count)) {
-
-				inventory_result.add(inventory.get(i));
-			}
+	public boolean fitCategory(Vehicle vehicle, boolean needNew, boolean needUsed){
+		boolean isNew = needNew;
+		boolean isUsed = needUsed;
+		if (isNew && isUsed) {
+			return true;
 		}
-		return inventory_result;
+		else {
+			return ((vehicle.getCategory().equals("new") && isNew) || (vehicle.getCategory().equals("used") && isUsed));
+		}
 	}
 
-	public boolean fit_category(Vehicle vehicle, String _new, String _used){
-		boolean is_new = (_new.equals("new"));
-		boolean is_used = (_used.equals("used"));
-		if !(is_new ^ is_used) return true;
-		return ((vehicle.getCategory().equals("new") && is_new) || (vehicle.getCategory().equals("used") && is_used))
+	public boolean fitYear(Vehicle vehicle, int minYear, int maxYear) {
+		int year = vehicle.getYear();
+		if ((minYear == 0) && (maxYear == 3000 )) return true;
+		if (minYear == 0) return year <= maxYear;
+		if (maxYear == 3000) return year >= minYear;
+		return (year <= maxYear) && (year >= minYear);
 	}
 
-	public boolean fit_year(Vehicle vehicle, String min_year, String max_year) {
-		int year = Integer.parseInt(vehicle.getYear());
-		if ((min_year == null || min_year.length() == 0) && (max_year == null || max_year.length() == 0)) return true;
-		if (min_year == null || min_year.length() == 0) return year <= Integer.parseInt(max_year);
-		if (max_year == null || max_year.length() == 0) return year >= Integer.parseInt(min_year);
-		return (year <= Integer.parseInt(max_year) && year >= Integer.parseInt(min_year));
+	public boolean fitMileage(Vehicle vehicle, double maxMileage) {
+		double mileage = vehicle.getMileage();
+		if (maxMileage == 0) return true;
+		return maxMileage >= mileage;
 	}
 
-	public boolean fit_mileage(Vehicle vehicle, String max_mileage) {
-		int mileage = Integer.parseInt(vehicle.getMilaege());
-		if (max_mileage == null|| max_mileage.length() == 0) return true;
-		return (Integer.parseInt(max_mileage) >= mileage);
+	public boolean fitPrice(Vehicle vehicle, String minPrice, String maxPrice) {
+		int price = Integer.parseInt(vehicle.getPrice().replace("$","").replace(",",""));
+		if ((minPrice == null || minPrice.length() == 0) && (maxPrice == null || maxPrice.length() == 0)) return true;
+		if (minPrice == null || minPrice.length() == 0) return price <= Integer.parseInt(maxPrice);
+		if (maxPrice == null || maxPrice.length() == 0) return price >= Integer.parseInt(minPrice);
+		return (price <= Integer.parseInt(maxPrice) && price >= Integer.parseInt(minPrice));
 	}
 
-	public boolean fit_price(Vehicle vehicle, String min_price, String max_price) {
-		int price = Integer.parseInt(vehicle.getPrice());
-		if ((min_price == null || min_price.length() == 0) && (max_price == null || max_price.length() == 0)) return true;
-		if (min_price == null || min_price.length() == 0) return price <= Integer.parseInt(max_price);
-		if (max_price == null || max_price.length() == 0) return price >= Integer.parseInt(min_price);
-		return (price <= Integer.parseInt(max_price) && price >= Integer.parseInt(min_price));
-	}
-
-	public boolean fit_model(Vehicle vehicle, String model) {
-		String v_model = vehicle.getModel();
+	public boolean fitModel(Vehicle vehicle, String model) {
+		String vehicleModel = vehicle.getModel();
 		if (model == null || model.length() == 0) return true;
-		return model.equals(v_model);
+		return model.equals(vehicleModel);
 	}
 
-	public boolean fit_make(Vehicle vehicle, String make) {
-		String v_make = vehicle.getMake();
+	public boolean fitMake(Vehicle vehicle, String make) {
+		String vehicleMake = vehicle.getMake();
 		if (make == null || make.length() == 0) return true;
-		return make.equals(v_make);
+		return make.equals(vehicleMake);
 	}
 
-	public boolean fit_type(Vehicle vehicle, String type) {
-		String v_type = vehicle.getType();
+	public boolean fitType(Vehicle vehicle, String type) {
+		String vehicleType = vehicle.getType();
 		if (type == null || type.length() == 0) return true;
-		return type.equals(v_type);
+		return type.equals(vehicleType);
 	}
 
-	public boolean fit_seat_count(Vehicle vehicle, String seat_count) {
-		String v_seat = vehicle.getSeatCount();
-		if (seat_count == null || seat_count.length() == 0) return true;
-		return seat_count.equals(v_seat);
+	public boolean fitSeatCount(Vehicle vehicle, String seatCount) {
+		int vehicleSeatCount = vehicle.getSeatCount();
+		if (seatCount == null || seatCount.length() == 0) return true;
+		return seatCount.equals(vehicleSeatCount);
 	}
 
 //	for testing;
@@ -96,4 +74,23 @@ public class InventorySearcherImplement implements InventorySearcher{
 
 	}
 
+	@Override
+	public ArrayList<Vehicle> searchInventory(List<Vehicle> inventory, FilterContent filterContent) {
+		ArrayList<Vehicle> inventoryResult = new ArrayList<>();
+
+		for (int i = 0; i < inventory.size(); i++) {
+			if (this.fitCategory(inventory.get(i), filterContent.needsNew, filterContent.needsUsed)
+					&& this.fitYear(inventory.get(i), filterContent.getLowYear(), filterContent.getHighYear())
+					&& this.fitMileage(inventory.get(i), filterContent.getMileage())
+					&& this.fitPrice(inventory.get(i), filterContent.getLowPrice(), filterContent.getHighPrice())
+					&& this.fitModel(inventory.get(i), filterContent.getModel())
+					&& this.fitMake(inventory.get(i), filterContent.getMake())
+					&& this.fitType(inventory.get(i), filterContent.getType())
+					&& this.fitSeatCount(inventory.get(i), filterContent.getSeatCount())) {
+
+				inventoryResult.add(inventory.get(i));
+			}
+		}
+		return inventoryResult;
+	}
 }

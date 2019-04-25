@@ -1,0 +1,14 @@
+SUV
+Truck
+Sedan
+Van
+Coupe
+Wagon
+Convertible
+Sports Car
+Diesel
+Crossover
+Luxury Car
+Hybrid/Electric
+Certified Pre-Owned
+--Please choose a preferred type
