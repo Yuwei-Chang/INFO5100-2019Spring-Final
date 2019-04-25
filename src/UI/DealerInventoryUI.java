@@ -16,17 +16,17 @@ public class DealerInventoryUI {
 }
 
 class DealerLogin extends JFrame {
-    public JTextField DealerIDText;
+    public JTextField dealerIDText;
     private DealerAuth dAuth=new DealerAuth();
     private Container container = getContentPane();
-    JTextField  DealerNameText;
-    private String DealerID;
-    private JButton LoginButton;
-    private Color RegularText = new Color(36, 33, 28),
-            Button = new Color(172, 81, 24),
-            Back = new Color(159, 125, 80),
-            ErrorText = Color.RED;
-    private JLabel InvalidDealer;
+    JTextField dealerNameText;
+    private String dealerID;
+    private JButton loginButton;
+    private Color regularText = new Color(36, 33, 28),
+            button = new Color(172, 81, 24),
+            back = new Color(159, 125, 80),
+            errorText = Color.RED;
+    private JLabel invalidDealer;
 
 
     //Constructor
@@ -42,12 +42,12 @@ class DealerLogin extends JFrame {
     //Create label panel
     private void CreateLabelPanel() {
         JPanel Left = new JPanel(new GridLayout(2, 1, 30, 30));
-        JLabel DealerIDLabel = new JLabel("DealerID:");
-        JLabel DealerNameLabel = new JLabel("DealerName:");
+        JLabel DealerIDLabel = new JLabel("dealerID:");
+        JLabel DealerNameLabel = new JLabel("dealerName:");
         DealerIDLabel.setFont(new Font("Arial", Font.BOLD, 16));
         DealerNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        DealerIDLabel.setForeground(RegularText);
-        DealerNameLabel.setForeground(RegularText);
+        DealerIDLabel.setForeground(regularText);
+        DealerNameLabel.setForeground(regularText);
         Left.add(DealerIDLabel);
         Left.add(DealerNameLabel);
         Left.setBounds(70, 70, 120, 80);
@@ -58,10 +58,10 @@ class DealerLogin extends JFrame {
     //Create input part UI
     private void CreateTextFieldPanel() {
         JPanel Right = new JPanel(new GridLayout(2, 1, 30, 30));
-        DealerIDText = new JTextField();
-        DealerNameText = new JTextField();
-        Right.add(DealerIDText);
-        Right.add(DealerNameText);
+        dealerIDText = new JTextField();
+        dealerNameText = new JTextField();
+        Right.add(dealerIDText);
+        Right.add(dealerNameText);
         Right.setBounds(190, 70, 150, 80);
         Right.setOpaque(false);
         container.add(Right);
@@ -70,15 +70,15 @@ class DealerLogin extends JFrame {
     //Create button
     private void CreateButtonPanel() {
         JPanel b = new JPanel(new GridLayout(1, 1, 30, 30));
-        LoginButton = new JButton("Login");
-        LoginButton.setFocusPainted(false);
-        LoginButton.setBounds(150, 200, 100, 30);
-        LoginButton.setFont(new Font("Arial", Font.BOLD, 16));
-        LoginButton.setFocusPainted(false);
-        LoginButton.setBackground(Button);;
-        LoginButton.setForeground(RegularText);
+        loginButton = new JButton("Login");
+        loginButton.setFocusPainted(false);
+        loginButton.setBounds(150, 200, 100, 30);
+        loginButton.setFont(new Font("Arial", Font.BOLD, 16));
+        loginButton.setFocusPainted(false);
+        loginButton.setBackground(button);;
+        loginButton.setForeground(regularText);
         b.setBounds(150, 200, 100, 30);
-        b.add(LoginButton);
+        b.add(loginButton);
         b.setOpaque(false);
         container.add(b);
     }
@@ -87,13 +87,13 @@ class DealerLogin extends JFrame {
 
         JPanel c = new JPanel(null);
         c.setLayout(null);
-        InvalidDealer=new JLabel("Dealer not found!!!");
-        InvalidDealer.setBounds(120, 240, 270, 30);
-        InvalidDealer.setFont(new Font("Arial", Font.BOLD, 16));
-        InvalidDealer.setForeground(ErrorText);
-        InvalidDealer.setVisible(false);
+        invalidDealer =new JLabel("Dealer not found!!!");
+        invalidDealer.setBounds(120, 240, 270, 30);
+        invalidDealer.setFont(new Font("Arial", Font.BOLD, 16));
+        invalidDealer.setForeground(errorText);
+        invalidDealer.setVisible(false);
 
-        c.add(InvalidDealer);
+        c.add(invalidDealer);
         c.setBounds(120, 70, 70, 70);
         c.setOpaque(false);
         container.add(c);
@@ -101,14 +101,14 @@ class DealerLogin extends JFrame {
 
     //Write button logic here
     private void SetAction() {
-        LoginButton.addActionListener(new ActionListener() {
+        loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DealerID = DealerIDText.getText();
-                if(dAuth.isValidDealer(DealerID)){
-                   new SearchFrame(DealerID);
+                dealerID = dealerIDText.getText();
+                if(dAuth.isValidDealer(dealerID)){
+                   new SearchFrame(dealerID);
                     setVisible(false);
                 }else{
-                    InvalidDealer.setVisible(true);
+                    invalidDealer.setVisible(true);
                     //  System.out.println("Dealer not found");
                 }
 
@@ -128,7 +128,7 @@ class DealerLogin extends JFrame {
         int screenHeight = screenSize.height;
         this.setLocation(screenWidth/2-windowWidth/2, screenHeight/2-windowHeight/2);
         setTitle("Login");
-        container.setBackground(Back);
+        container.setBackground(back);
         //setUndecorated(true);
         //AWTUtilities.setWindowOpacity(this, (float)(0.86));
         setVisible(true);
@@ -142,10 +142,10 @@ class SearchFrame extends JFrame {
     DealerAuth dAuth=new DealerAuth();
     //DealerLogin dealerobj=new DealerLogin();
     private Container container = getContentPane();
-    private String DealerName;
-    private JPanel LeftPanel, RightPanel;
-    private JRadioButton New, Used, All;
-    private JButton SearchButton, AddButton, ModifyButton, DeleteButton;
+    private String dealerName;
+    private JPanel leftPanel, rightPanel;
+    private JRadioButton New, used, all;
+    private JButton searchButton, addButton, modifyButton, deleteButton;
     private JComboBox modelCB,makeCB;
     private String selectedCategory="";
     //Constructor
@@ -154,7 +154,7 @@ class SearchFrame extends JFrame {
     }
     public SearchFrame(String DealerName) {
         container.setLayout(null);
-        this.DealerName = DealerName;
+        this.dealerName = DealerName;
         CreateLeftPanel();
         ButtonAction();
         SetBackground();
@@ -163,26 +163,26 @@ class SearchFrame extends JFrame {
 
     //Create left part panel
     private void CreateLeftPanel() {
-        LeftPanel = new JPanel();
-        LeftPanel.setLayout(null);
+        leftPanel = new JPanel();
+        leftPanel.setLayout(null);
         JPanel LabelPanel = new JPanel();
         LabelPanel.setOpaque(false);
-        JLabel CurrentDealerName = new JLabel(DealerName, JLabel.CENTER);
+        JLabel CurrentDealerName = new JLabel(dealerName, JLabel.CENTER);
         CurrentDealerName.setFont(new Font("Arial", Font.BOLD, 32));;
         LabelPanel.add(CurrentDealerName);
         LabelPanel.setBounds(0, 120, 640, 60);
-        LeftPanel.add(LabelPanel);
+        leftPanel.add(LabelPanel);
 
         JPanel ButtonPanel = new JPanel();
         ButtonPanel.setOpaque(false);
         ButtonPanel.setLayout(null);
-        SearchButton = new JButton("Search");
-        SearchButton.setFont(new Font("Arial", Font.PLAIN, 20));
-        SearchButton.setBounds(260, 0, 120, 40);
-        SearchButton.setFocusPainted(false);
-        ButtonPanel.add(SearchButton);
+        searchButton = new JButton("Search");
+        searchButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        searchButton.setBounds(260, 0, 120, 40);
+        searchButton.setFocusPainted(false);
+        ButtonPanel.add(searchButton);
         ButtonPanel.setBounds(0, 680, 640, 40);
-        LeftPanel.add(ButtonPanel);
+        leftPanel.add(ButtonPanel);
 
         JPanel FilterPanel = new JPanel();
         FilterPanel.setOpaque(false);
@@ -216,52 +216,52 @@ class SearchFrame extends JFrame {
         FilterPanel.add(FilterPanelLeft);
         FilterPanel.add(FilterPanelRight);
         FilterPanel.setBounds(0, 240, 640, 300);
-        LeftPanel.add(FilterPanel);
+        leftPanel.add(FilterPanel);
 
 
         JPanel SelectPanel = new JPanel();
         SelectPanel.setOpaque(false);
         SelectPanel.setLayout(new BoxLayout(SelectPanel, BoxLayout.X_AXIS));
         New = new JRadioButton("New");
-        Used = new JRadioButton("Used");
-        All = new JRadioButton("All");
+        used = new JRadioButton("used");
+        all = new JRadioButton("all");
         New.setEnabled(true);
         New.setFont(new Font("Arial", Font.PLAIN, 16));
-        Used.setFont(new Font("Arial", Font.PLAIN, 16));
-        All.setFont(new Font("Arial", Font.PLAIN, 16));
+        used.setFont(new Font("Arial", Font.PLAIN, 16));
+        all.setFont(new Font("Arial", Font.PLAIN, 16));
         New.setFocusPainted(false);
-        Used.setFocusPainted(false);
-        All.setFocusPainted(false);
+        used.setFocusPainted(false);
+        all.setFocusPainted(false);
         New.setOpaque(false);
-        Used.setOpaque(false);
-        All.setOpaque(false);
+        used.setOpaque(false);
+        all.setOpaque(false);
         New.setSelected(true);
         ButtonGroup group = new ButtonGroup();
-        group.add(New); group.add(Used); group.add(All);
+        group.add(New); group.add(used); group.add(all);
 
 
 
         SelectPanel.add(Box.createHorizontalStrut(117)); SelectPanel.add(New);
-        SelectPanel.add(Box.createHorizontalStrut(117)); SelectPanel.add(Used);
-        SelectPanel.add(Box.createHorizontalStrut(117)); SelectPanel.add(All);
+        SelectPanel.add(Box.createHorizontalStrut(117)); SelectPanel.add(used);
+        SelectPanel.add(Box.createHorizontalStrut(117)); SelectPanel.add(all);
         SelectPanel.setBounds(0, 560, 640, 60);
-        LeftPanel.add(SelectPanel);
+        leftPanel.add(SelectPanel);
 
-        LeftPanel.setBounds(0, 0, 640, 900);
-        LeftPanel.setOpaque(false);
-        container.add(LeftPanel);
+        leftPanel.setBounds(0, 0, 640, 900);
+        leftPanel.setOpaque(false);
+        container.add(leftPanel);
     }
 
 
     //Create right part panel
     private void CreateRightPanel(ArrayList<Vehicle> vl) {
-//        if(RightPanel!=null){
-//            RightPanel=null;
+//        if(rightPanel!=null){
+//            rightPanel=null;
 //            this.repaint();
 //        }
-        RightPanel = new JPanel();
-        RightPanel.setOpaque(false);
-        RightPanel.setLayout(null);
+        rightPanel = new JPanel();
+        rightPanel.setOpaque(false);
+        rightPanel.setLayout(null);
 
         if(vl.size()>0) {
             JPanel TopList = new JPanel(null);
@@ -281,27 +281,27 @@ class SearchFrame extends JFrame {
 
             JPanel Buttons = new JPanel(new GridLayout(1, 3, 100, 20));
             Buttons.setOpaque(false);
-            AddButton = new JButton("Add");
-            AddButton.setFont(new Font("Arial", Font.PLAIN, 16));
-            ModifyButton = new JButton("Modify");
-            ModifyButton.setFont(new Font("Arial", Font.PLAIN, 16));
-            DeleteButton = new JButton("Delete");
-            DeleteButton.setFont(new Font("Arial", Font.PLAIN, 16));
-            AddButton.setFocusPainted(false);
-            ModifyButton.setFocusPainted(false);
-            DeleteButton.setFocusPainted(false);
-            Buttons.add(AddButton);
-            Buttons.add(ModifyButton);
-            Buttons.add(DeleteButton);
+            addButton = new JButton("Add");
+            addButton.setFont(new Font("Arial", Font.PLAIN, 16));
+            modifyButton = new JButton("Modify");
+            modifyButton.setFont(new Font("Arial", Font.PLAIN, 16));
+            deleteButton = new JButton("Delete");
+            deleteButton.setFont(new Font("Arial", Font.PLAIN, 16));
+            addButton.setFocusPainted(false);
+            modifyButton.setFocusPainted(false);
+            deleteButton.setFocusPainted(false);
+            Buttons.add(addButton);
+            Buttons.add(modifyButton);
+            Buttons.add(deleteButton);
 
             TopList.setBounds(30, 60, 900, 640);
             Buttons.setBounds(200, 720, 560, 50);
 
-            RightPanel.add(TopList);
-            RightPanel.add(Buttons);
+            rightPanel.add(TopList);
+            rightPanel.add(Buttons);
 
 
-            DeleteButton.addActionListener(new ActionListener() {
+            deleteButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
                     new DeleteCarUI();
                     //dispose();
@@ -309,7 +309,7 @@ class SearchFrame extends JFrame {
 
             });
 
-            AddButton.addActionListener(new ActionListener() {
+            addButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
                     new AddCarUI();
                     //dispose();
@@ -317,7 +317,7 @@ class SearchFrame extends JFrame {
 
             });
 
-            ModifyButton.addActionListener(new ActionListener() {
+            modifyButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
                     new ModifyCarUI();
                     //dispose();
@@ -328,45 +328,41 @@ class SearchFrame extends JFrame {
             JLabel info=new JLabel("No cars found with given filters!!!!");
             info.setPreferredSize(new Dimension(300,150));
             info.setForeground(Color.RED);
-            RightPanel.add(info);
+            rightPanel.add(info);
 
         }
-        RightPanel.setBounds(640, 0, 960, 900);
-        container.add(RightPanel);
+        rightPanel.setBounds(640, 0, 960, 900);
+        container.add(rightPanel);
         setVisible(true);
-       // RightPanel.setVisible(true);
+       // rightPanel.setVisible(true);
     }
 
     //Write search button logic here
     private void ButtonAction() {
-        SearchButton.addActionListener(new ActionListener() {
+        searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("search button");
                 //get filters
-                String dealerid= DealerName;
+                String dealerid= dealerName;
                 String model= modelCB.getSelectedItem().toString();
                 String make= makeCB.getSelectedItem().toString();
                 System.out.println("make "+make);
                 if(New.isSelected()){
                     selectedCategory=New.getText();
                 }else
-                if(Used.isSelected()){
-                    selectedCategory=Used.getText();
+                if(used.isSelected()){
+                    selectedCategory= used.getText();
                 }else
-                if(All.isSelected()){
-                    selectedCategory=All.getText();
+                if(all.isSelected()){
+                    selectedCategory= all.getText();
                 }
 
-                System.out.println("category "+ selectedCategory);
+                //System.out.println("category "+ selectedCategory);
 
                 ArrayList<Vehicle> vl = dbobj.getVehicleForMakeMOdelCategory(dealerid,make, model, selectedCategory);
 
           // ArrayList<Vehicle> vl = dbobj.getVehicleForMakeMOdelCategory("D18", "Audi", "A4" , "New");
 //                Vehicle testvehicle= vl.get(0);
-//                System.out.println(testvehicle.getCategory());
-//                System.out.println(testvehicle.getModel());
-//                System.out.println(testvehicle.getMake());
-//                System.out.println(vl.size());
 
               CreateRightPanel(vl);
             }
