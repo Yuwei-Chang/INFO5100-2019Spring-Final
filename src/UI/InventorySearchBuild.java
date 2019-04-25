@@ -52,7 +52,7 @@ public class InventorySearchBuild extends JFrame {
     protected InventorySearchBuild() {
     	this.setSize(2000, 1000);
 		this.setTitle("Search Results");
-    	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	
     	BorderLayout mainLayout = new BorderLayout();
         getContentPane().setLayout(mainLayout);

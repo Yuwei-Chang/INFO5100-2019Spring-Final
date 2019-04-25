@@ -10,7 +10,7 @@ public class FilterContent {
 	private String type;
 	
 	private double mileage;
-	private String seatCount;
+	private int seatCount;
 	
 	private String highPrice;
 	private String lowPrice; 
@@ -26,8 +26,8 @@ public class FilterContent {
 			this.make = "";
 			this.model = "";
 			this.type = "";
-			this.mileage = 0;
-			this.seatCount = "";
+			this.mileage = 1000000;
+			this.seatCount = 0;
 			this.category = "";
 
 			this.needsUsed = true;
@@ -112,16 +112,20 @@ public class FilterContent {
 		}
 	
 	//seatCount
-	public String getSeatCount() {
+	public int getSeatCount() {
 	return seatCount;
 		}
-	public void setSeatCount(String seatCount) {
-	this.seatCount = seatCount;
+	public void setSeatCount(Object seatCount) {
+		if(seatCount.equals("--Please choose a preferred seat count")){
+			this.seatCount = 0;
 		}
+		else
+			this.seatCount = Integer.parseInt((String)seatCount);
+	}
 
 	@Override
 	public String toString() {
-		return getLowYear()+"\n"+getHighYear()+"\n"+getLowPrice()+"\n"+getHighPrice()+"\n"+"\n"+getMake()+"\n"+getMileage()+"\n"+getModel();
+		return getLowYear()+"\n"+getHighYear()+"\n"+getLowPrice()+"\n"+getHighPrice()+"\n"+"\n"+getMake()+"\n"+getMileage()+"\n"+getModel()+needsNew+"\n"+needsUsed;
 	}
 
 	public boolean isValidate(){
@@ -159,10 +163,6 @@ public class FilterContent {
 
 		if(this.getMake().equals("--Please choose a preferred make")) {
 			this.make = "";
-		}
-
-		if(this.getSeatCount().equals(seatCountItems.get(seatCountItems.size()-1))) {
-			this.seatCount = "";
 		}
 
 		if(this.getType().equals(typeSetItems.get(typeSetItems.size()-1))) {

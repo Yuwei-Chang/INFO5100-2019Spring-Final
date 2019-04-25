@@ -19,10 +19,11 @@ public class InventorySearch extends InventorySearchBuild{
     private Inventory inventory;
     private List vehiclesCollection = new ArrayList<Vehicle>();
 
-    private InventorySearch(String dealerID) throws FileNotFoundException {
+    public InventorySearch(String dealerID) throws FileNotFoundException {
         super();
         this.dealerID = dealerID;
         this.buildUI();
+        this.setVisible(true);
     }
 
     private void buildUI() throws FileNotFoundException {
@@ -447,13 +448,13 @@ public class InventorySearch extends InventorySearchBuild{
 
     private void buildSouthPanel() {
         southPanel.add(JBBack);
-        getContentPane().add(southPanel, BorderLayout.SOUTH);
+        //getContentPane().add(southPanel, BorderLayout.SOUTH);
         getContentPane().setVisible(true);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
             InventorySearch is = new InventorySearch("D10");
-            is.setVisible(true);
+            //is.setVisible(true);
     }
 
 }
