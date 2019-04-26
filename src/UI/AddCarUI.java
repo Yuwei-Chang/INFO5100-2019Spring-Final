@@ -22,11 +22,6 @@ public class AddCarUI extends JFrame {
 
     UUID uid=UUID.randomUUID();
     String uuid=Long.toString(uid.getMostSignificantBits(),1).replaceAll("-","").replaceAll("[a-z]", "");
-    //int vehicleid=Integer.parseInt(uuid);
-
-//    UUID uuid = UUID.randomUUID().;
-//    //String vid = ByteBuffer.wrap(uuid.toString().getBytes()).toString();
-//    //String vid=Long.toString(l, Integer.BYTES);
 
     public AddCarUI(String dealerID) {
         this.dealerID=dealerID;
@@ -126,7 +121,7 @@ System.out.println(dealerID);
         setSize(900, 1800);
         setTitle("Add Page");
         setVisible(true);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+       // setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     void addListeners(){

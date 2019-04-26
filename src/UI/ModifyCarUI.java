@@ -90,7 +90,7 @@ public class ModifyCarUI extends JFrame {
         setSize(1000, 800);
         setTitle("Modify Page");
         setVisible(true);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+       // setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     void addListeners(){

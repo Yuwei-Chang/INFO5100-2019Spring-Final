@@ -202,10 +202,6 @@ class SearchFrame extends JFrame {
         Make.setFont(new Font("Arial", Font.PLAIN, 20));
         FilterPanelLeft.add(Model);
         FilterPanelLeft.add(Make);
-//        String[] modelList = {"SUV", "Sedan", "HatchBack", "CrossOver"};
-//        String[] makeList = {"Honda", "Subaru", "Tesla", "Toyota"};
-       // List modelList= (vehicleObj.getModel().toArray();
-      //  String[] makeList= (String[])vehicleObj.getMake().toArray();
 
          modelCB = new JComboBox(vehicleObj.getModel().toArray());
          makeCB = new JComboBox(vehicleObj.getMake().toArray());
@@ -314,27 +310,27 @@ class SearchFrame extends JFrame {
 
             });
 
-            addButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ae) {
-                    new AddCarUI(dealerid);
-                }
-            });
 
-            modifyButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ae) {
-                    for(JRadioButton jrb: rbList){
-                        if(jrb.isSelected()) {
-                            new ModifyCarUI(jrb.getText());
-                            break;
+            addButton.addActionListener((e)-> new AddCarUI(dealerid));
+
+
+            modifyButton.addActionListener((e)-> {
+                        for (JRadioButton jrb : rbList) {
+                            if (jrb.isSelected()) {
+                                new ModifyCarUI(jrb.getText());
+                                break;
+                            }
                         }
-                    }
-                }
-            });
+                    });
+
         }
         else{
             JLabel info=new JLabel("No cars found with given filters!!!!");
             info.setPreferredSize(new Dimension(300,150));
+            info.setFont(new Font("Arial", Font.BOLD, 30));
+           // info.setBounds(30, 60, 900, 640);
             info.setForeground(Color.RED);
+
             list.add(info);
         }
 
@@ -345,8 +341,7 @@ class SearchFrame extends JFrame {
 
     //Write search button logic here
     private void ButtonAction() {
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        searchButton.addActionListener((e)-> {
                 System.out.println("search button");
                 //get filters
                 //String dealerid= dealerid;
@@ -371,7 +366,7 @@ class SearchFrame extends JFrame {
 //                Vehicle testvehicle= vl.get(0);
 
               CreateRightPanel(vl);
-            }
+
           });
     }
 
@@ -437,23 +432,23 @@ class ListPanel extends JPanel{
         resultMake.setPreferredSize(new Dimension(100,50));
     }
     private void createComponents(Vehicle v){
-        select = new JRadioButton(v.getVehicleId());
+        select = new JRadioButton("ID: "+v.getVehicleId());
         select.setOpaque(false);
 //        resultVehicleID = new JLabel(v.getVehicleId());
-        resultCondition = new JLabel(v.getType());
-        resultLocation = new JLabel(v.getCategory());
-        resultMake = new JLabel(v.getMake());
-        resultMileage = new JLabel(v.getModel());
-        resultYear = new JLabel(Integer.toString(v.getYear()));
-        resultPrice = new JLabel(v.getPrice());
-        select.setPreferredSize(new Dimension(100, 50));
+        resultCondition = new JLabel("Type: " + v.getType());
+        resultLocation = new JLabel("Category: " +v.getCategory());
+        resultMake = new JLabel("Make: " + v.getMake());
+        resultMileage = new JLabel("Model: " +v.getModel());
+        resultYear = new JLabel("Year: "+Integer.toString(v.getYear()));
+        resultPrice = new JLabel("Price: "+v.getPrice());
+        select.setPreferredSize(new Dimension(150, 50));
 //        resultVehicleID.setPreferredSize(new Dimension(100,50));
-        resultPrice.setPreferredSize(new Dimension(100,50));
+        resultPrice.setPreferredSize(new Dimension(150,50));
         resultLocation.setPreferredSize(new Dimension(150,50));
         resultMileage.setPreferredSize(new Dimension(150,50));
         resultCondition.setPreferredSize(new Dimension(150,50));
-        resultYear.setPreferredSize(new Dimension(100,50));
-        resultMake.setPreferredSize(new Dimension(100,50));
+        resultYear.setPreferredSize(new Dimension(150,50));
+        resultMake.setPreferredSize(new Dimension(150,50));
     }
     private void addComponents(){
         add(select);

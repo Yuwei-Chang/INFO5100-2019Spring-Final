@@ -1,5 +1,7 @@
 package UI;
 
+import database.DatabaseConnection;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +22,7 @@ public class DeleteCarUI extends JFrame{
     JLabel label=new JLabel("Vehicleid:");
     JLabel label2;
     String vid;
+    DatabaseConnection dbObj=new DatabaseConnection();
     public DeleteCarUI(String vid){
         this.vid=vid;
         CreateAddComponent(vid);
@@ -82,7 +85,7 @@ public class DeleteCarUI extends JFrame{
         this.setLocation(screenWidth/2-windowWidth/2, screenHeight/2-windowHeight/2);
 
         setTitle("Confirm Delete");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     //   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
     }
@@ -95,41 +98,43 @@ public class DeleteCarUI extends JFrame{
 
                 dispose();
 
-                String URL = "jdbc:sqlserver://is-swang01.ischool.uw.edu;databaseName=Car_Inventory";
-                String USER = "";
-                String PASS = "";
-
-                try {
-                    InputStream input = new FileInputStream("src/database/connection.properties");
-                    Properties prop = new Properties();
-                    prop.load(input);
-                    Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                    Connection conn = DriverManager.getConnection(URL, prop.getProperty("username"), prop.getProperty("password"));
-
-                    PreparedStatement p = conn.prepareStatement("select * from  dbo.Inventory WHERE Vehicleid =" + "'" + label2.getText() + "'");
-                    ResultSet r = p.executeQuery();
-
-                    if (r.next() == true) {
-                        PreparedStatement ps = conn.prepareStatement("Delete from  dbo.Inventory WHERE Vehicleid ="
-                                + "'" + label2.getText() + "';\n" + "Delete from dbo.Vehicle where Vehicleid=" + "'" + label2.getText() + "';");
-
-                        ps.executeUpdate();
-                        JOptionPane.showMessageDialog(null, "Vehicle Successfully Deleted from Inventory");
-                        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Vehicle not available in Inventory");
-                        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                    }
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                 dbObj.deleteCar(label2.getText());
+//                String URL = "jdbc:sqlserver://is-swang01.ischool.uw.edu;databaseName=Car_Inventory";
+//                String USER = "";
+//                String PASS = "";
+//
+//                try {
+//                    InputStream input = new FileInputStream("src/database/connection.properties");
+//                    Properties prop = new Properties();
+//                    prop.load(input);
+//                    Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//                    Connection conn = DriverManager.getConnection(URL, prop.getProperty("username"), prop.getProperty("password"));
+//
+//                    PreparedStatement p = conn.prepareStatement("select * from  dbo.Inventory WHERE Vehicleid =" + "'" + label2.getText() + "'");
+//                    ResultSet r = p.executeQuery();
+//
+//                    if (r.next() == true) {
+//                        PreparedStatement ps = conn.prepareStatement("Delete from  dbo.Inventory WHERE Vehicleid ="
+//                                + "'" + label2.getText() + "';\n" + "Delete from dbo.Vehicle where Vehicleid=" + "'" + label2.getText() + "';");
+//
+//                        ps.executeUpdate();
+//                        JOptionPane.showMessageDialog(null, "Vehicle Successfully Deleted from Inventory");
+//                        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//                    } else {
+//                        JOptionPane.showMessageDialog(null, "Vehicle not available in Inventory");
+//                        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//                    }
+//
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                } catch (ClassNotFoundException e) {
+//                    e.printStackTrace();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             }
             });
