@@ -44,6 +44,7 @@ public class ModifyCarUI extends JFrame {
         //Brand
         VehicleidLabel = new JLabel("VehicleID:");
         VehicleidText = new JTextField(v.getVehicleId());
+        VehicleidText.setEditable(false);
         //Model
         ModelLabel = new JLabel("Model:");
         ModelText = new JTextField(v.getModel());

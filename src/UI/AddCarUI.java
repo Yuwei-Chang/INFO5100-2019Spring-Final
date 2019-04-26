@@ -1,5 +1,7 @@
 package UI;
 
+import database.DatabaseConnection;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -11,9 +13,12 @@ import java.util.*;
 
 public class AddCarUI extends JFrame {
     private JPanel top, main, bottom;
-    private JLabel VehicleIdLabel, ModelLabel, MakeLabel, TypeLabel, SeatCountLabel, MileageLabel, PriceLabel, YearLabel, CategoryLabel,ZipcodeLabel;
-    private JTextField  VehicleIdText,ModelText,MakeText, TypeText, SeatCountText, MileageText, PriceText, YearText, CategoryText,ZipcodeText;
+    private JLabel vehicleIdLabel, modelLabel, makeLabel, typeLabel, seatCountLabel, mileageLabel, priceLabel, yearLabel, categoryLabel,ZipcodeLabel;
+    private JTextField vehicleIdText, modelText, makeText, typeText, seatCountText, mileageText, priceText, yearText, categoryText,ZipcodeText;
     private JButton submitButton;
+    private String dealerID;
+    DatabaseConnection dbObj=new DatabaseConnection();
+
 
     UUID uid=UUID.randomUUID();
     String uuid=Long.toString(uid.getMostSignificantBits(),1).replaceAll("-","").replaceAll("[a-z]", "");
@@ -23,7 +28,8 @@ public class AddCarUI extends JFrame {
 //    //String vid = ByteBuffer.wrap(uuid.toString().getBytes()).toString();
 //    //String vid=Long.toString(l, Integer.BYTES);
 
-    public AddCarUI() {
+    public AddCarUI(String dealerID) {
+        this.dealerID=dealerID;
         createComponents();
         addComponents();
         addListeners();
@@ -40,38 +46,40 @@ public class AddCarUI extends JFrame {
         bottom = new JPanel(new GridLayout(6, 1, 30, 30));
         bottom.setBounds(100, 70, 300, 300);
         bottom.setLocation(350, 340);
+System.out.println(dealerID);
 
-
-        uuid="v"+uuid.substring(0, 5);
+        uuid="v"+uuid.substring(0, 3);
 
 
         //Brand
-        VehicleIdLabel = new JLabel("VehicleID:");
-        VehicleIdText = new JTextField(uuid);
+        vehicleIdLabel = new JLabel("VehicleID:");
+        vehicleIdText = new JTextField(uuid);
+        vehicleIdText.setEditable(false);
+
         //Model
-        ModelLabel = new JLabel("Model:");
-        ModelText = new JTextField();
+        modelLabel = new JLabel("Model:");
+        modelText = new JTextField();
         //Make
-        MakeLabel = new JLabel("Make:");
-        MakeText = new JTextField();
+        makeLabel = new JLabel("Make:");
+        makeText = new JTextField();
         //Type
-        TypeLabel = new JLabel("Type:");
-        TypeText = new JTextField();
+        typeLabel = new JLabel("Type:");
+        typeText = new JTextField();
         //SeatCount
-        SeatCountLabel = new JLabel("SeatCount:");
-        SeatCountText = new JTextField();
+        seatCountLabel = new JLabel("SeatCount:");
+        seatCountText = new JTextField();
         //Mileage
-        MileageLabel = new JLabel("Mileage:");
-        MileageText = new JTextField();
+        mileageLabel = new JLabel("Mileage:");
+        mileageText = new JTextField();
         //Price
-        PriceLabel = new JLabel("Price:");
-        PriceText = new JTextField();
+        priceLabel = new JLabel("Price:");
+        priceText = new JTextField();
         //Year
-        YearLabel = new JLabel("Year:");
-        YearText = new JTextField();
+        yearLabel = new JLabel("Year:");
+        yearText = new JTextField();
         //Category
-        CategoryLabel = new JLabel("Category:");
-        CategoryText = new JTextField();
+        categoryLabel = new JLabel("Category:");
+        categoryText = new JTextField();
 
         //Zipcode
         ZipcodeLabel= new JLabel("Zipcode:");
@@ -86,24 +94,24 @@ public class AddCarUI extends JFrame {
     void addComponents() {
         Container container = getContentPane();
         container.setLayout(null);
-        top.add(VehicleIdLabel);
-        top.add(VehicleIdText);
-        top.add(ModelLabel);
-        top.add(ModelText);
-        main.add(PriceLabel);
-        main.add(PriceText);
-        main.add(YearLabel);
-        main.add(YearText);
-        bottom.add(CategoryLabel);
-        bottom.add(CategoryText);
-        bottom.add(SeatCountLabel);
-        bottom.add(SeatCountText);
-        bottom.add(MakeLabel);
-        bottom.add(MakeText);
-        bottom.add(MileageLabel);
-        bottom.add(MileageText);
-        bottom.add(TypeLabel);
-        bottom.add(TypeText);
+        top.add(vehicleIdLabel);
+        top.add(vehicleIdText);
+        top.add(modelLabel);
+        top.add(modelText);
+        main.add(priceLabel);
+        main.add(priceText);
+        main.add(yearLabel);
+        main.add(yearText);
+        bottom.add(categoryLabel);
+        bottom.add(categoryText);
+        bottom.add(seatCountLabel);
+        bottom.add(seatCountText);
+        bottom.add(makeLabel);
+        bottom.add(makeText);
+        bottom.add(mileageLabel);
+        bottom.add(mileageText);
+        bottom.add(typeLabel);
+        bottom.add(typeText);
         bottom.add(ZipcodeLabel);
         bottom.add(ZipcodeText);
         container.add(top);
@@ -126,7 +134,6 @@ public class AddCarUI extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
 
-                // dispose();
 
                 String URL = "jdbc:sqlserver://is-swang01.ischool.uw.edu;databaseName=Car_Inventory";
                 String USER = "";
@@ -138,25 +145,33 @@ public class AddCarUI extends JFrame {
                     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                     Connection conn = DriverManager.getConnection(URL, prop.getProperty("username"), prop.getProperty("password"));
 
-                    PreparedStatement p = conn.prepareStatement("select * from  dbo.Vehicle WHERE Vehicleid ="+"'"+VehicleIdText.getText()+"'");
+                    PreparedStatement p = conn.prepareStatement("select * from  dbo.Vehicle WHERE Vehicleid ="+"'"+ vehicleIdText.getText()+"'");
                     ResultSet r=p.executeQuery();
 
                     if(r.next()==false) {
                         PreparedStatement ps = conn.prepareStatement("Insert into dbo.Vehicle values('"
-                                +uuid+"','"+CategoryText.getText()+"','"+YearText.getText()
-                                +"','"+MakeText.getText()+"','"+ModelText.getText()+"','"+TypeText.getText()
-                                +"','"+SeatCountText.getText()+"','"+MileageText.getText()+"','"+PriceText.getText()+"','"+ZipcodeText.getText()+"');");
+                                +uuid+"','"+ categoryText.getText()+"','"+ yearText.getText()
+                                +"','"+ makeText.getText()+"','"+ modelText.getText()+"','"+ typeText.getText()
+                                +"','"+ seatCountText.getText()+"','"+ mileageText.getText()+"','"+ priceText.getText()+"','"+ZipcodeText.getText()+"');\n"
+                                +"Insert into dbo.Inventory values('"+dealerID+"','"+uuid+"');");
+                        System.out.println("Insert into dbo.Vehicle values('"
+                                +uuid+"','"+ categoryText.getText()+"','"+ yearText.getText()
+                                +"','"+ makeText.getText()+"','"+ modelText.getText()+"','"+ typeText.getText()
+                                +"','"+ seatCountText.getText()+"','"+ mileageText.getText()+"','"+ priceText.getText()+"','"+ZipcodeText.getText()+"');\n"
+                                +"Insert into dbo.Inventory values('"+dealerID+"','"+uuid+"');");
                         ps.executeUpdate();
                         JOptionPane.showMessageDialog(null, "Vehicle is Successfully Added");
-
                     }
 
                 } catch (ClassNotFoundException c) {
                     c.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Add Vehicle insert error");
+
                 } catch (Exception s) {
                    s.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Vehicle already exists");
                 }
+                dispose();
             }
         });
     }

@@ -1,7 +1,7 @@
 package UI;
-import DB.DatabaseConnection;
-import DB.DealerAuth;
-import DB.VehiclesSearchResult;
+import database.DatabaseConnection;
+import database.DealerAuth;
+import database.VehiclesSearchResult;
 import dto.Vehicle;
 
 import javax.swing.*;
@@ -17,7 +17,8 @@ public class DealerInventoryUI {
 
 class DealerLogin extends JFrame {
     public JTextField dealerIDText;
-    private DealerAuth dAuth=new DealerAuth();
+    DatabaseConnection dbobj=new DatabaseConnection();
+   // private DealerAuth dAuth=new DealerAuth();
     private Container container = getContentPane();
     JTextField dealerNameText;
     private String dealerID;
@@ -104,7 +105,7 @@ class DealerLogin extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dealerID = dealerIDText.getText();
-                if(dAuth.isValidDealer(dealerID)){
+                if(dbobj.isValidDealer(dealerID)){
                    new SearchFrame(dealerID);
                     setVisible(false);
                 }else{
@@ -142,19 +143,21 @@ class SearchFrame extends JFrame {
     DealerAuth dAuth=new DealerAuth();
     //DealerLogin dealerobj=new DealerLogin();
     private Container container = getContentPane();
-    private String dealerName;
+    private String dealerid;
     private JPanel leftPanel, rightPanel;
     private JRadioButton New, used, all;
     private JButton searchButton, addButton, modifyButton, deleteButton;
     private JComboBox modelCB,makeCB;
     private String selectedCategory="";
+    //DealerLogin dObj;
+
     //Constructor
 //    public SearchFrame(){
 //
 //    }
-    public SearchFrame(String DealerName) {
+    public SearchFrame(String dealerid) {
         container.setLayout(null);
-        this.dealerName = DealerName;
+        this.dealerid = dealerid;
         CreateLeftPanel();
         ButtonAction();
         SetBackground();
@@ -167,7 +170,7 @@ class SearchFrame extends JFrame {
         leftPanel.setLayout(null);
         JPanel LabelPanel = new JPanel();
         LabelPanel.setOpaque(false);
-        JLabel CurrentDealerName = new JLabel(dealerName, JLabel.CENTER);
+        JLabel CurrentDealerName = new JLabel(dealerid, JLabel.CENTER);
         CurrentDealerName.setFont(new Font("Arial", Font.BOLD, 32));;
         LabelPanel.add(CurrentDealerName);
         LabelPanel.setBounds(0, 120, 640, 60);
@@ -252,30 +255,36 @@ class SearchFrame extends JFrame {
 
     //Create right part panel
     private void CreateRightPanel(ArrayList<Vehicle> vl) {
-//        if(rightPanel!=null){
-//            rightPanel=null;
-//            this.repaint();
-//        }
+        if(rightPanel!=null){
+            Component[] comp = rightPanel.getComponents();
+            for(Component c:comp){
+                rightPanel.remove(c);
+            }
+        }
+
         rightPanel = new JPanel();
         rightPanel.setOpaque(false);
         rightPanel.setLayout(null);
 
+
+        JPanel topList = new JPanel(null);
+        topList.setOpaque(false);
+        JPanel list = new JPanel(null);
+        list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
+        list.setFont(new Font("Courier New", Font.BOLD, 24));
+        JScrollPane listPane = new JScrollPane(list);
+        listPane.setBounds(50, 20, 800, 600);
+        topList.add(listPane);
+        topList.setBounds(30, 60, 900, 640);
+        rightPanel.add(topList);
+
         if(vl.size()>0) {
-            JPanel topList = new JPanel(null);
-            topList.setOpaque(false);
-            JPanel list = new JPanel(null);
-            list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
             ArrayList<JRadioButton> rbList = new ArrayList<JRadioButton>();
             for (Vehicle v : vl) {
                 ListPanel resultPanel = new ListPanel(v);
                 rbList.add(resultPanel.select);
                 list.add(resultPanel);
             }
-            list.setFont(new Font("Courier New", Font.BOLD, 24));
-            JScrollPane listPane = new JScrollPane(list);
-            listPane.setBounds(50, 20, 800, 600);
-            topList.add(listPane);
-
             JPanel buttons = new JPanel(new GridLayout(1, 3, 100, 20));
             buttons.setOpaque(false);
             addButton = new JButton("Add");
@@ -290,35 +299,25 @@ class SearchFrame extends JFrame {
             buttons.add(addButton);
             buttons.add(modifyButton);
             buttons.add(deleteButton);
-
-            topList.setBounds(30, 60, 900, 640);
             buttons.setBounds(200, 720, 560, 50);
-
-            rightPanel.add(topList);
             rightPanel.add(buttons);
-
 
             deleteButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
-                  //  new DeleteCarUI();
-
                     for(JRadioButton jrb: rbList){
                         if(jrb.isSelected()) {
                             new DeleteCarUI(jrb.getText());
                             break;
                         }
                     }
-                    //dispose();
                 }
 
             });
 
             addButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
-                    //new AddCarUI();
-                    //dispose();
+                    new AddCarUI(dealerid);
                 }
-
             });
 
             modifyButton.addActionListener(new ActionListener() {
@@ -329,8 +328,6 @@ class SearchFrame extends JFrame {
                             break;
                         }
                     }
-
-                    //dispose();
                 }
             });
         }
@@ -338,13 +335,12 @@ class SearchFrame extends JFrame {
             JLabel info=new JLabel("No cars found with given filters!!!!");
             info.setPreferredSize(new Dimension(300,150));
             info.setForeground(Color.RED);
-            rightPanel.add(info);
-
+            list.add(info);
         }
+
         rightPanel.setBounds(640, 0, 960, 900);
         container.add(rightPanel);
         setVisible(true);
-       // rightPanel.setVisible(true);
     }
 
     //Write search button logic here
@@ -353,7 +349,7 @@ class SearchFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("search button");
                 //get filters
-                String dealerid= dealerName;
+                //String dealerid= dealerid;
                 String model= modelCB.getSelectedItem().toString();
                 String make= makeCB.getSelectedItem().toString();
                 System.out.println("make "+make);
@@ -409,6 +405,7 @@ class ListPanel extends JPanel{
     JLabel resultPrice, resultLocation, resultMake, resultYear, resultMileage, resultCondition;
     JRadioButton select;
 
+
     public ListPanel() {
         setBorder(BorderFactory.createEmptyBorder(20,10,20,20));
         createComponents();
@@ -449,7 +446,7 @@ class ListPanel extends JPanel{
         resultMileage = new JLabel(v.getModel());
         resultYear = new JLabel(Integer.toString(v.getYear()));
         resultPrice = new JLabel(v.getPrice());
-        select.setPreferredSize(new Dimension(50, 50));
+        select.setPreferredSize(new Dimension(100, 50));
 //        resultVehicleID.setPreferredSize(new Dimension(100,50));
         resultPrice.setPreferredSize(new Dimension(100,50));
         resultLocation.setPreferredSize(new Dimension(150,50));

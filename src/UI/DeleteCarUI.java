@@ -137,9 +137,7 @@ public class DeleteCarUI extends JFrame{
         CancelButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent c) {
-                DealerLogin dui=new DealerLogin();
-                SearchFrame sf=new SearchFrame(dui.dealerNameText.getText());
-                sf.setVisible(true);
+                dispose();
             }
 
         });
