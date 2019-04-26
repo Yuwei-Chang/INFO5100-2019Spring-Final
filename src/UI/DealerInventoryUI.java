@@ -1,6 +1,6 @@
 package UI;
 import database.DatabaseConnection;
-import database.DealerAuth;
+//import database.DealerAuth;
 import database.VehiclesSearchResult;
 import dto.Vehicle;
 
@@ -140,7 +140,7 @@ class DealerLogin extends JFrame {
 class SearchFrame extends JFrame {
     VehiclesSearchResult vehicleObj =new VehiclesSearchResult();
     DatabaseConnection dbobj=new DatabaseConnection();
-    DealerAuth dAuth=new DealerAuth();
+    //DealerAuth dAuth=new DealerAuth();
     //DealerLogin dealerobj=new DealerLogin();
     private Container container = getContentPane();
     private String dealerid;
